@@ -25,16 +25,22 @@ Replace the comments below with real images once you have them.
 
 <!-- TODO: Add a full-page screenshot of the landing/dashboard view -->
 <!-- Example: ![Landing Page](docs/images/landing.png) -->
-
+<img width="1888" height="902" alt="image" src="https://github.com/user-attachments/assets/ad25f821-dc5f-44d0-8377-0f29e6ae07a5" />
+<img width="1902" height="897" alt="image" src="https://github.com/user-attachments/assets/04ddc57f-90a9-4b93-b09a-b9d67b9d1472" />
+<img width="1906" height="905" alt="image" src="https://github.com/user-attachments/assets/619c2546-e45d-436b-91e9-332d40c7114c" />
 
 <!-- TODO: Add a screenshot of the product list page -->
 <!-- Example: ![Product List](docs/images/product-list.png) -->
+<img width="1890" height="902" alt="image" src="https://github.com/user-attachments/assets/460b37fc-ee60-4f9c-9fe8-69654aaecf0c" />
 
 <!-- TODO: Add a screenshot or GIF showing creating/updating a product -->
 <!-- Example: ![Create Product Flow](docs/images/create-product.gif) -->
+<img width="1923" height="880" alt="image" src="https://github.com/user-attachments/assets/08db0e69-f301-4920-b0d6-26406a61f637" />
+
 
 <!-- TODO: Add a screenshot of an inventory/stock movement screen -->
 <!-- Example: ![Stock Movement](docs/images/stock-movement.png) -->
+<img width="1891" height="902" alt="image" src="https://github.com/user-attachments/assets/7cbc615f-c0d7-415a-939e-317349fa44f9" />
 
 ---
 
