@@ -20,8 +20,6 @@ The code that matters for this app is under the `Inv_project/` folder.
 
 ### Visual Overview (Screenshots)
 
-You can use this section to show how the app looks and flows.  
-Replace the comments below with real images once you have them.
 
 <!-- TODO: Add a full-page screenshot of the landing/dashboard view -->
 <!-- Example: ![Landing Page](docs/images/landing.png) -->
