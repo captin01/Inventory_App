@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}Stock Movements{% endblock %}
+
+{% block content %}
+  <!-- Header Section -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <h2 class="mb-1 fw-bold">Stock Movements</h2>
+          <p class="text-muted mb-0 small">Track all inventory increases and reductions.</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="{{ url_for('stock.export_movements', search=current_search, type=current_type, start_date=current_start_date, end_date=current_end_date) }}" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M.5 9.9a.5.5 0 0 1 .5.5h2.5a.5.5 0 0 1 0 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h.5a.5.5 0 0 1 0 1H3v8h-.5a.5.5 0 0 1-.5-.5z"/>
+              <path d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+            Export CSV
+          </a>
+          <a href="{{ url_for('stock.add_stock') }}" class="btn btn-success d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+            Add Stock
+          </a>
+          <a href="{{ url_for('stock.remove_stock') }}" class="btn btn-danger d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+            </svg>
+            Remove Stock
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Row -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+      <form method="GET" action="{{ url_for('stock.list_movements') }}" class="row g-3">
+        <!-- Search Input -->
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-muted" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0" 
+              name="search" 
+              placeholder="Search product name..." 
+              value="{{ current_search }}"
+            />
+          </div>
+        </div>
+
+        <!-- Movement Type Filter -->
+        <div class="col-md-3">
+          <select class="form-select" name="type">
+            <option value="">All Types</option>
+            <option value="IN" {% if current_type == 'IN' %}selected{% endif %}>IN</option>
+            <option value="OUT" {% if current_type == 'OUT' %}selected{% endif %}>OUT</option>
+          </select>
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-md-2">
+          <input 
+            type="date" 
+            class="form-control" 
+            name="start_date" 
+            placeholder="Start Date"
+            value="{{ current_start_date }}"
+          />
+        </div>
+
+        <!-- End Date -->
+        <div class="col-md-2">
+          <input 
+            type="date" 
+            class="form-control" 
+            name="end_date" 
+            placeholder="End Date"
+            value="{{ current_end_date }}"
+          />
+        </div>
+
+        <!-- Apply Button -->
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Stock Movements Table -->
+  {% if movements_data %}
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0 movements-table">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-4">Product</th>
+                <th>Movement Type</th>
+                <th>Quantity</th>
+                <th>Date / Time</th>
+                <th>Stock After</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in movements_data %}
+                <tr>
+                  <td class="ps-4">
+                    <strong class="d-block">{{ item.movement.product.name if item.movement.product else 'Unknown Product' }}</strong>
+                    {% if item.movement.product %}
+                      <small class="text-muted">SKU: {{ item.movement.product.sku }}</small>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if item.movement.movement_type == "IN" %}
+                      <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 4px;">
+                          <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+                          <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+                        </svg>
+                        IN
+                      </span>
+                    {% else %}
+                      <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 fw-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 4px;">
+                          <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                        </svg>
+                        OUT
+                      </span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <span class="fw-bold fs-6">{{ item.movement.quantity }}</span>
+                  </td>
+                  <td>
+                    <div>
+                      <div class="fw-semibold small">{{ item.movement.timestamp.strftime('%b %d, %Y') if item.movement.timestamp else 'N/A' }}</div>
+                      <small class="text-muted">{{ item.movement.timestamp.strftime('%I:%M %p') if item.movement.timestamp else '' }}</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
+                      {{ item.stock_after if item.movement.product else 'N/A' }}
+                    </span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Pagination -->
+      {% if pagination.pages > 1 %}
+        <div class="card-footer bg-white border-0 py-3">
+          <nav aria-label="Stock movements pagination">
+            <ul class="pagination mb-0 justify-content-center">
+              <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('stock.list_movements', page=pagination.prev_num, search=current_search, type=current_type, start_date=current_start_date, end_date=current_end_date) if pagination.has_prev else '#' }}">
+                  Previous
+                </a>
+              </li>
+              {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if page_num %}
+                  {% if page_num == pagination.page %}
+                    <li class="page-item active">
+                      <span class="page-link">{{ page_num }}</span>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{ url_for('stock.list_movements', page=page_num, search=current_search, type=current_type, start_date=current_start_date, end_date=current_end_date) }}">{{ page_num }}</a>
+                    </li>
+                  {% endif %}
+                {% else %}
+                  <li class="page-item disabled">
+                    <span class="page-link">…</span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('stock.list_movements', page=pagination.next_num, search=current_search, type=current_type, start_date=current_start_date, end_date=current_end_date) if pagination.has_next else '#' }}">
+                  Next
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="text-center text-muted small mt-2">
+            Showing {{ (pagination.page - 1) * pagination.per_page + 1 }} to {{ pagination.page * pagination.per_page if pagination.page * pagination.per_page < pagination.total else pagination.total }} of {{ pagination.total }} movements
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <!-- Empty State -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body text-center py-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="text-muted mb-4" viewBox="0 0 16 16">
+          <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.025-.72-2.935zM4.5 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm3.5 8a.5.5 0 0 0-1 0v1.5a.5.5 0 0 0 1 0V12zm2.5-.5a.5.5 0 0 1 .5.5v1.5a.5.5 0 0 1-1 0V12a.5.5 0 0 1 .5-.5zm2.5.5a.5.5 0 0 0-1 0v1.5a.5.5 0 1 0 1 0V12zM8 5.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+        </svg>
+        <h4 class="mb-2">No stock activity yet.</h4>
+        <p class="text-muted mb-4">Start by adding or removing stock to see activity here.</p>
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="{{ url_for('stock.add_stock') }}" class="btn btn-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px;">
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+            Add Stock
+          </a>
+          <a href="{{ url_for('stock.remove_stock') }}" class="btn btn-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px;">
+              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+            </svg>
+            Remove Stock
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

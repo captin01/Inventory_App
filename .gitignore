@@ -1,0 +1,174 @@
+# Environment Variables & Secrets
+# =================================
+# NEVER commit these files - they contain sensitive information
+.env
+.env.*
+!.env.example
+!.env.sample
+*.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Secret files and credentials
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+credentials.json
+config.ini
+secrets.yaml
+secrets.yml
+
+# Database files
+# =================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+test.db
+*.sql
+
+# Python
+# =================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg-info
+
+# Virtual Environments
+# =================================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+virtualenv/
+
+# IDE & Editor files
+# =================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# Flask
+# =================================
+instance/
+.webassets-cache
+*.log
+
+# Testing & Coverage
+# =================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# OS files
+# =================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+# =================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+tmp/
+temp/
+
+# Logs
+# =================================
+*.log
+logs/
+*.log.*
+
+# Compiled files
+# =================================
+*.pyc
+*.pyo
+*.pyd
+*.class
+
+# Distribution / packaging
+# =================================
+.Python
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.manifest
+*.spec
+
+# Jupyter Notebook
+# =================================
+.ipynb_checkpoints
+
+# pyenv
+# =================================
+.python-version
+
+# Celery
+# =================================
+celerybeat-schedule
+celerybeat.pid
+
+# mypy
+# =================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+# =================================
+.pyre/
+
+# pytype static type analyzer
+# =================================
+.pytype/
+
+# Cython debug symbols
+# =================================
+cython_debug/
+
+# Project specific
+# =================================
+# Add any project-specific files or directories here
+
