@@ -12,9 +12,7 @@ from app import db
 
 @bp.route("/")
 def landing():
-    """Landing page for unauthenticated users."""
-    if "user_id" in session:
-        return redirect(url_for("main.home"))
+    """Public landing page (always shown, even if authenticated)."""
     return render_template("landing.html")
 
 
