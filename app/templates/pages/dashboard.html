@@ -3,7 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-  <!-- Stats Cards -->
+  <!-- Stats Cards with Gradient Accents -->
   <div class="row g-4 mb-4">
     <div class="col-md-3">
       <div class="card stat-card border-0 shadow-sm h-100">
@@ -45,12 +45,12 @@
         <div class="card-body p-4">
           <div class="d-flex align-items-center justify-content-between">
             <div>
-              <p class="text-muted mb-2 small text-uppercase fw-semibold">Stock Movements</p>
-              <h2 class="mb-0 fw-bold">{{ metrics.stock_movements_count }}</h2>
+              <p class="text-muted mb-2 small text-uppercase fw-semibold">Total Value</p>
+              <h2 class="mb-0 fw-bold">${{ metrics.stock_value }}</h2>
             </div>
             <div class="stat-icon bg-success bg-opacity-10">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-success" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 0-.5.5v11.793l-3.146-3.147a.5.5 0 0 0-.708.708l4 4a.5.5 0 0 0 .708 0l4-4a.5.5 0 0 0-.708-.708L4 13.293V1.5a.5.5 0 0 0-.5-.5z"/>
+                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
               </svg>
             </div>
           </div>
@@ -79,7 +79,7 @@
   <!-- Quick Actions -->
   <div class="card border-0 shadow-sm mb-4">
     <div class="card-header bg-white border-0 py-3">
-      <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+      <h5 class="mb-0 fw-semibold">⚡ Quick Actions</h5>
     </div>
     <div class="card-body">
       <div class="row g-3">
@@ -120,25 +120,69 @@
     </div>
   </div>
 
-  <!-- Charts Row -->
+  <!-- Charts Row 1: Stock Movements & Stock Value Trend -->
   <div class="row g-4 mb-4">
     <div class="col-lg-8">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">Stock Movements (Last 7 Days)</h5>
+          <h5 class="mb-0 fw-semibold">📈 Stock Movements (Last 7 Days)</h5>
         </div>
         <div class="card-body">
-          <canvas id="movementsChart" height="80"></canvas>
+          <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
+            <canvas id="movementsChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-lg-4">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">Products by Category</h5>
+          <h5 class="mb-0 fw-semibold">💰 Stock Value Trend</h5>
         </div>
         <div class="card-body">
-          <canvas id="categoryChart"></canvas>
+          <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
+            <canvas id="stockValueChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row 2: Category Distribution, Top Products & Stock Health -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 py-3">
+          <h5 class="mb-0 fw-semibold">🏷️ Products by Category</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 py-3">
+          <h5 class="mb-0 fw-semibold">🏆 Top 5 Products</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+            <canvas id="topProductsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 py-3">
+          <h5 class="mb-0 fw-semibold">🩺 Stock Health</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+            <canvas id="stockHealthChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -147,7 +191,7 @@
   <!-- Recent Movements -->
   <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 fw-semibold">Recent Stock Movements</h5>
+      <h5 class="mb-0 fw-semibold">📋 Recent Stock Movements</h5>
       <a href="{{ url_for('stock.list_movements') }}" class="btn btn-sm btn-outline-primary">View All</a>
     </div>
     <div class="card-body">
@@ -195,8 +239,29 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
-    // Stock Movements Chart
+    // Modern Chart.js Configuration
+    Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    Chart.defaults.font.size = 13;
+    Chart.defaults.color = '#6b7280';
+
+    // Custom gradient helper
+    function createGradient(ctx, color1, color2) {
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, color1);
+      gradient.addColorStop(1, color2);
+      return gradient;
+    }
+
+    // 1. Stock Movements Chart (Enhanced Line Chart)
     const movementsCtx = document.getElementById('movementsChart').getContext('2d');
+    const movementsGradientIn = movementsCtx.createLinearGradient(0, 0, 0, 300);
+    movementsGradientIn.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
+    movementsGradientIn.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+    
+    const movementsGradientOut = movementsCtx.createLinearGradient(0, 0, 0, 300);
+    movementsGradientOut.addColorStop(0, 'rgba(239, 68, 68, 0.4)');
+    movementsGradientOut.addColorStop(1, 'rgba(239, 68, 68, 0.05)');
+    
     new Chart(movementsCtx, {
       type: 'line',
       data: {
@@ -204,25 +269,66 @@
         datasets: [{
           label: 'Inbound',
           data: {{ metrics.inbound_data|tojson }},
-          borderColor: 'rgb(34, 197, 94)',
-          backgroundColor: 'rgba(34, 197, 94, 0.1)',
+          borderColor: '#10b981',
+          backgroundColor: movementsGradientIn,
+          borderWidth: 3,
           tension: 0.4,
-          fill: true
+          fill: true,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#10b981',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
         }, {
           label: 'Outbound',
           data: {{ metrics.outbound_data|tojson }},
-          borderColor: 'rgb(239, 68, 68)',
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          borderColor: '#ef4444',
+          backgroundColor: movementsGradientOut,
+          borderWidth: 3,
           tension: 0.4,
-          fill: true
+          fill: true,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#ef4444',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
         }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
         plugins: {
           legend: {
             position: 'top',
+            labels: {
+              usePointStyle: true,
+              padding: 15,
+              font: {
+                weight: 600
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            titleFont: {
+              size: 14,
+              weight: 'bold'
+            },
+            bodyFont: {
+              size: 13
+            },
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + ' units';
+              }
+            }
           }
         },
         scales: {
@@ -230,13 +336,96 @@
             beginAtZero: true,
             ticks: {
               precision: 0
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+              drawBorder: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
             }
           }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
         }
       }
     });
 
-    // Category Distribution Chart
+    // 2. Stock Value Trend Chart (Area Chart)
+    const stockValueCtx = document.getElementById('stockValueChart').getContext('2d');
+    const stockValueGradient = stockValueCtx.createLinearGradient(0, 0, 0, 300);
+    stockValueGradient.addColorStop(0, 'rgba(102, 126, 234, 0.5)');
+    stockValueGradient.addColorStop(1, 'rgba(118, 75, 162, 0.1)');
+    
+    new Chart(stockValueCtx, {
+      type: 'line',
+      data: {
+        labels: {{ metrics.stock_value_trend_labels|tojson }},
+        datasets: [{
+          label: 'Total Value ($)',
+          data: {{ metrics.stock_value_trend_data|tojson }},
+          borderColor: '#667eea',
+          backgroundColor: stockValueGradient,
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#667eea',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            callbacks: {
+              label: function(context) {
+                return '$' + context.parsed.y.toFixed(2);
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return '$' + value;
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+              drawBorder: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
+
+    // 3. Category Distribution Chart (Enhanced Donut)
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
     new Chart(categoryCtx, {
       type: 'doughnut',
@@ -245,27 +434,187 @@
         datasets: [{
           data: {{ metrics.category_counts|tojson }},
           backgroundColor: [
-            'rgba(59, 130, 246, 0.8)',
-            'rgba(34, 197, 94, 0.8)',
-            'rgba(251, 146, 60, 0.8)',
-            'rgba(168, 85, 247, 0.8)',
-            'rgba(236, 72, 153, 0.8)',
-            'rgba(20, 184, 166, 0.8)'
+            '#667eea',
+            '#10b981',
+            '#f59e0b',
+            '#a855f7',
+            '#ec4899',
+            '#06b6d4',
+            '#8b5cf6',
+            '#ef4444'
           ],
-          borderWidth: 2,
-          borderColor: '#fff'
+          borderWidth: 3,
+          borderColor: '#fff',
+          hoverOffset: 10
         }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              padding: 15,
+              font: {
+                size: 12,
+                weight: 600
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            callbacks: {
+              label: function(context) {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+              }
+            }
           }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
+
+    // 4. Top Products Chart (Horizontal Bar)
+    const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+    new Chart(topProductsCtx, {
+      type: 'bar',
+      data: {
+        labels: {{ metrics.top_products_labels|tojson }},
+        datasets: [{
+          label: 'Quantity',
+          data: {{ metrics.top_products_data|tojson }},
+          backgroundColor: [
+            'rgba(102, 126, 234, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(168, 85, 247, 0.8)',
+            'rgba(236, 72, 153, 0.8)'
+          ],
+          borderColor: [
+            '#667eea',
+            '#10b981',
+            '#f59e0b',
+            '#a855f7',
+            '#ec4899'
+          ],
+          borderWidth: 2,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            callbacks: {
+              label: function(context) {
+                return 'Quantity: ' + context.parsed.x + ' units';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+              drawBorder: false
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
+
+    // 5. Stock Health Chart (Donut with custom colors)
+    const stockHealthCtx = document.getElementById('stockHealthChart').getContext('2d');
+    new Chart(stockHealthCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Healthy (≥20)', 'Warning (10-19)', 'Critical (<10)'],
+        datasets: [{
+          data: [
+            {{ metrics.stock_health.healthy }},
+            {{ metrics.stock_health.warning }},
+            {{ metrics.stock_health.critical }}
+          ],
+          backgroundColor: [
+            '#10b981',
+            '#f59e0b',
+            '#ef4444'
+          ],
+          borderWidth: 3,
+          borderColor: '#fff',
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              padding: 12,
+              font: {
+                size: 11,
+                weight: 600
+              }
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            callbacks: {
+              label: function(context) {
+                const percentage = {{ metrics.stock_health.healthy_pct if metrics.stock_health else 0 }};
+                const percentages = [
+                  {{ metrics.stock_health.healthy_pct }},
+                  {{ metrics.stock_health.warning_pct }},
+                  {{ metrics.stock_health.critical_pct }}
+                ];
+                return context.label + ': ' + context.parsed + ' (' + percentages[context.dataIndex] + '%)';
+              }
+            }
+          }
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeInOutQuart'
         }
       }
     });
   </script>
 {% endblock %}
-
