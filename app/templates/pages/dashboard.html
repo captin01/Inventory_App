@@ -1,620 +1,196 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard | Inventory Pro{% endblock %}
 
 {% block content %}
-  <!-- Stats Cards with Gradient Accents -->
-  <div class="row g-4 mb-4">
-    <div class="col-md-3">
-      <div class="card stat-card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <p class="text-muted mb-2 small text-uppercase fw-semibold">Total Products</p>
-              <h2 class="mb-0 fw-bold">{{ metrics.product_count }}</h2>
-            </div>
-            <div class="stat-icon bg-primary bg-opacity-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-primary" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-                <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
-              </svg>
-            </div>
-          </div>
+<div class="container-fluid px-4 animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold h2 mb-0">Executive Dashboard</h1>
+            <p class="text-secondary mb-0">Real-time inventory insights and performance metrics.</p>
         </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card stat-card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <p class="text-muted mb-2 small text-uppercase fw-semibold">Total Categories</p>
-              <h2 class="mb-0 fw-bold">{{ metrics.category_count }}</h2>
-            </div>
-            <div class="stat-icon bg-info bg-opacity-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-info" viewBox="0 0 16 16">
-                <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
-              </svg>
-            </div>
-          </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-light rounded-pill px-4">
+                <i class="bi bi-download me-2"></i>Export Report
+            </button>
+            <button class="btn btn-primary rounded-pill px-4">
+                <i class="bi bi-plus-lg me-2"></i>Add Product
+            </button>
         </div>
-      </div>
     </div>
-    <div class="col-md-3">
-      <div class="card stat-card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <p class="text-muted mb-2 small text-uppercase fw-semibold">Total Value</p>
-              <h2 class="mb-0 fw-bold">${{ metrics.stock_value }}</h2>
-            </div>
-            <div class="stat-icon bg-success bg-opacity-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-success" viewBox="0 0 16 16">
-                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card stat-card border-0 shadow-sm h-100">
-        <div class="card-body p-4">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <p class="text-muted mb-2 small text-uppercase fw-semibold">Low Stock Items</p>
-              <h2 class="mb-0 fw-bold">{{ metrics.low_stock }}</h2>
-            </div>
-            <div class="stat-icon bg-warning bg-opacity-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-warning" viewBox="0 0 16 16">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Quick Actions -->
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-white border-0 py-3">
-      <h5 class="mb-0 fw-semibold">⚡ Quick Actions</h5>
-    </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3 col-sm-6">
-          <a href="{{ url_for('product.create_product') }}" class="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2 quick-action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg>
-            <span>Add Product</span>
-          </a>
+    <!-- Bento Grid -->
+    <div class="bento-grid">
+        <!-- Main Chart -->
+        <div class="glass-card bento-item large">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="h5 mb-0 fw-semibold">Stock Movements (7 Days)</h3>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-link text-secondary" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="movementsChart"></canvas>
+            </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="{{ url_for('category.create_category') }}" class="btn btn-info w-100 py-3 d-flex align-items-center justify-content-center gap-2 quick-action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-            </svg>
-            <span>Add Category</span>
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="{{ url_for('stock.add_stock') }}" class="btn btn-success w-100 py-3 d-flex align-items-center justify-content-center gap-2 quick-action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-              <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-            </svg>
-            <span>Add Stock</span>
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <a href="{{ url_for('stock.remove_stock') }}" class="btn btn-danger w-100 py-3 d-flex align-items-center justify-content-center gap-2 quick-action-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-            </svg>
-            <span>Remove Stock</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Charts Row 1: Stock Movements & Stock Value Trend -->
-  <div class="row g-4 mb-4">
-    <div class="col-lg-8">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">📈 Stock Movements (Last 7 Days)</h5>
+        <!-- Key Metrics -->
+        <div class="glass-card bento-item">
+            <div class="stat-label">Total Stock Value</div>
+            <div class="stat-value">${{ "{:,.2f}".format(metrics.stock_value) }}</div>
+            <div class="text-success small">
+                <i class="bi bi-arrow-up-right me-1"></i>+2.4% from last month
+            </div>
         </div>
-        <div class="card-body">
-          <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
-            <canvas id="movementsChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">💰 Stock Value Trend</h5>
-        </div>
-        <div class="card-body">
-          <div class="chart-container" style="position: relative; height: 320px; width: 100%;">
-            <canvas id="stockValueChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Charts Row 2: Category Distribution, Top Products & Stock Health -->
-  <div class="row g-4 mb-4">
-    <div class="col-lg-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">🏷️ Products by Category</h5>
+        <div class="glass-card bento-item">
+            <div class="stat-label">Total Products</div>
+            <div class="stat-value">{{ metrics.product_count }}</div>
+            <div class="text-secondary small">Across {{ metrics.category_count }} categories</div>
         </div>
-        <div class="card-body">
-          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
-            <canvas id="categoryChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">🏆 Top 5 Products</h5>
-        </div>
-        <div class="card-body">
-          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
-            <canvas id="topProductsChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 py-3">
-          <h5 class="mb-0 fw-semibold">🩺 Stock Health</h5>
-        </div>
-        <div class="card-body">
-          <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
-            <canvas id="stockHealthChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Recent Movements -->
-  <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 fw-semibold">📋 Recent Stock Movements</h5>
-      <a href="{{ url_for('stock.list_movements') }}" class="btn btn-sm btn-outline-primary">View All</a>
-    </div>
-    <div class="card-body">
-      {% if metrics.recent_movements %}
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>Product</th>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for move in metrics.recent_movements %}
-                <tr>
-                  <td>
-                    <strong>{{ move.product }}</strong>
-                  </td>
-                  <td>
-                    <span class="badge bg-{{ 'success' if move.type == 'inbound' else 'danger' }} rounded-pill px-3">
-                      {{ move.type|title }}
-                    </span>
-                  </td>
-                  <td class="fw-semibold">{{ move.quantity }}</td>
-                  <td class="text-muted small">{{ move.timestamp }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <!-- Distribution Chart -->
+        <div class="glass-card bento-item tall">
+            <h3 class="h5 mb-4 fw-semibold">Category Distribution</h3>
+            <div style="height: 250px;">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="mt-4">
+                {% for label in metrics.category_labels[:3] %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-secondary">{{ label }}</span>
+                    <span class="small fw-medium">{{ metrics.category_counts[loop.index0] }} items</span>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-      {% else %}
-        <div class="text-center py-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-muted mb-3" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm.5-2.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3z"/>
-          </svg>
-          <p class="text-muted mb-0">No movements to display yet.</p>
+
+        <!-- Low Stock Alert -->
+        <div class="glass-card bento-item {% if metrics.low_stock > 0 %}border-danger{% endif %}" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0) 100%);">
+            <div class="d-flex align-items-center mb-2">
+                <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3">
+                    <i class="bi bi-exclamation-triangle text-danger"></i>
+                </div>
+                <div class="stat-label text-danger">Low Stock Items</div>
+            </div>
+            <div class="stat-value text-danger">{{ metrics.low_stock }}</div>
+            <a href="{{ url_for('product.list_products') }}?low_stock=true" class="btn btn-sm btn-danger rounded-pill mt-2">View Items</a>
         </div>
-      {% endif %}
+
+        <!-- Recent Activity -->
+        <div class="glass-card bento-item wide tall">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="h5 mb-0 fw-semibold">Recent Movements</h3>
+                <a href="{{ url_for('stock.list_movements') }}" class="small text-primary text-decoration-none">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>Qty</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for move in metrics.recent_movements %}
+                        <tr>
+                            <td class="fw-medium">{{ move.product }}</td>
+                            <td>
+                                <span class="badge-{{ move.type }}">{{ move.type|capitalize }}</span>
+                            </td>
+                            <td>{{ move.quantity }}</td>
+                            <td class="text-secondary small">{{ move.timestamp }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script>
-    // Modern Chart.js Configuration
-    Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-    Chart.defaults.font.size = 13;
-    Chart.defaults.color = '#6b7280';
-
-    // Custom gradient helper
-    function createGradient(ctx, color1, color2) {
-      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, color1);
-      gradient.addColorStop(1, color2);
-      return gradient;
-    }
-
-    // 1. Stock Movements Chart (Enhanced Line Chart)
-    const movementsCtx = document.getElementById('movementsChart').getContext('2d');
-    const movementsGradientIn = movementsCtx.createLinearGradient(0, 0, 0, 300);
-    movementsGradientIn.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
-    movementsGradientIn.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
-    
-    const movementsGradientOut = movementsCtx.createLinearGradient(0, 0, 0, 300);
-    movementsGradientOut.addColorStop(0, 'rgba(239, 68, 68, 0.4)');
-    movementsGradientOut.addColorStop(1, 'rgba(239, 68, 68, 0.05)');
-    
-    new Chart(movementsCtx, {
-      type: 'line',
-      data: {
-        labels: {{ metrics.chart_labels|tojson }},
-        datasets: [{
-          label: 'Inbound',
-          data: {{ metrics.inbound_data|tojson }},
-          borderColor: '#10b981',
-          backgroundColor: movementsGradientIn,
-          borderWidth: 3,
-          tension: 0.4,
-          fill: true,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          pointBackgroundColor: '#10b981',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-        }, {
-          label: 'Outbound',
-          data: {{ metrics.outbound_data|tojson }},
-          borderColor: '#ef4444',
-          backgroundColor: movementsGradientOut,
-          borderWidth: 3,
-          tension: 0.4,
-          fill: true,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          pointBackgroundColor: '#ef4444',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: 'index',
-          intersect: false,
+<script>
+    // Stock Movements Chart
+    const ctxMovements = document.getElementById('movementsChart').getContext('2d');
+    new Chart(ctxMovements, {
+        type: 'line',
+        data: {
+            labels: JSON.parse('{{ metrics.chart_labels|tojson|safe }}'),
+            datasets: [{
+                label: 'Inbound',
+                data: JSON.parse('{{ metrics.inbound_data|tojson|safe }}'),
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: '#10b981'
+            }, {
+                label: 'Outbound',
+                data: JSON.parse('{{ metrics.outbound_data|tojson|safe }}'),
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: '#ef4444'
+            }]
         },
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: {
-              usePointStyle: true,
-              padding: 15,
-              font: {
-                weight: 600
-              }
-            }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            borderWidth: 1,
-            titleFont: {
-              size: 14,
-              weight: 'bold'
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } }
+                }
             },
-            bodyFont: {
-              size: 13
-            },
-            callbacks: {
-              label: function(context) {
-                return context.dataset.label + ': ' + context.parsed.y + ' units';
-              }
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#94a3b8' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8' }
+                }
             }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              precision: 0
-            },
-            grid: {
-              color: 'rgba(0, 0, 0, 0.05)',
-              drawBorder: false
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        },
-        animation: {
-          duration: 1000,
-          easing: 'easeInOutQuart'
         }
-      }
     });
 
-    // 2. Stock Value Trend Chart (Area Chart)
-    const stockValueCtx = document.getElementById('stockValueChart').getContext('2d');
-    const stockValueGradient = stockValueCtx.createLinearGradient(0, 0, 0, 300);
-    stockValueGradient.addColorStop(0, 'rgba(102, 126, 234, 0.5)');
-    stockValueGradient.addColorStop(1, 'rgba(118, 75, 162, 0.1)');
-    
-    new Chart(stockValueCtx, {
-      type: 'line',
-      data: {
-        labels: {{ metrics.stock_value_trend_labels|tojson }},
-        datasets: [{
-          label: 'Total Value ($)',
-          data: {{ metrics.stock_value_trend_data|tojson }},
-          borderColor: '#667eea',
-          backgroundColor: stockValueGradient,
-          borderWidth: 3,
-          tension: 0.4,
-          fill: true,
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          pointBackgroundColor: '#667eea',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            borderWidth: 1,
-            callbacks: {
-              label: function(context) {
-                return '$' + context.parsed.y.toFixed(2);
-              }
-            }
-          }
+    // Category Distribution Chart
+    const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+    new Chart(ctxCategory, {
+        type: 'doughnut',
+        data: {
+            labels: JSON.parse('{{ metrics.category_labels|tojson|safe }}'),
+            datasets: [{
+                data: JSON.parse('{{ metrics.category_counts|tojson|safe }}'),
+                backgroundColor: [
+                    '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'
+                ],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return '$' + value;
-              }
-            },
-            grid: {
-              color: 'rgba(0, 0, 0, 0.05)',
-              drawBorder: false
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '75%',
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        },
-        animation: {
-          duration: 1000,
-          easing: 'easeInOutQuart'
         }
-      }
     });
-
-    // 3. Category Distribution Chart (Enhanced Donut)
-    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-    new Chart(categoryCtx, {
-      type: 'doughnut',
-      data: {
-        labels: {{ metrics.category_labels|tojson }},
-        datasets: [{
-          data: {{ metrics.category_counts|tojson }},
-          backgroundColor: [
-            '#667eea',
-            '#10b981',
-            '#f59e0b',
-            '#a855f7',
-            '#ec4899',
-            '#06b6d4',
-            '#8b5cf6',
-            '#ef4444'
-          ],
-          borderWidth: 3,
-          borderColor: '#fff',
-          hoverOffset: 10
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              usePointStyle: true,
-              padding: 15,
-              font: {
-                size: 12,
-                weight: 600
-              }
-            }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            borderWidth: 1,
-            callbacks: {
-              label: function(context) {
-                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                const percentage = ((context.parsed / total) * 100).toFixed(1);
-                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
-              }
-            }
-          }
-        },
-        animation: {
-          duration: 1000,
-          easing: 'easeInOutQuart'
-        }
-      }
-    });
-
-    // 4. Top Products Chart (Horizontal Bar)
-    const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
-    new Chart(topProductsCtx, {
-      type: 'bar',
-      data: {
-        labels: {{ metrics.top_products_labels|tojson }},
-        datasets: [{
-          label: 'Quantity',
-          data: {{ metrics.top_products_data|tojson }},
-          backgroundColor: [
-            'rgba(102, 126, 234, 0.8)',
-            'rgba(16, 185, 129, 0.8)',
-            'rgba(245, 158, 11, 0.8)',
-            'rgba(168, 85, 247, 0.8)',
-            'rgba(236, 72, 153, 0.8)'
-          ],
-          borderColor: [
-            '#667eea',
-            '#10b981',
-            '#f59e0b',
-            '#a855f7',
-            '#ec4899'
-          ],
-          borderWidth: 2,
-          borderRadius: 8,
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            borderWidth: 1,
-            callbacks: {
-              label: function(context) {
-                return 'Quantity: ' + context.parsed.x + ' units';
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-            ticks: {
-              precision: 0
-            },
-            grid: {
-              color: 'rgba(0, 0, 0, 0.05)',
-              drawBorder: false
-            }
-          },
-          y: {
-            grid: {
-              display: false
-            }
-          }
-        },
-        animation: {
-          duration: 1000,
-          easing: 'easeInOutQuart'
-        }
-      }
-    });
-
-    // 5. Stock Health Chart (Donut with custom colors)
-    const stockHealthCtx = document.getElementById('stockHealthChart').getContext('2d');
-    new Chart(stockHealthCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Healthy (≥20)', 'Warning (10-19)', 'Critical (<10)'],
-        datasets: [{
-          data: [
-            {{ metrics.stock_health.healthy }},
-            {{ metrics.stock_health.warning }},
-            {{ metrics.stock_health.critical }}
-          ],
-          backgroundColor: [
-            '#10b981',
-            '#f59e0b',
-            '#ef4444'
-          ],
-          borderWidth: 3,
-          borderColor: '#fff',
-          hoverOffset: 10
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              usePointStyle: true,
-              padding: 12,
-              font: {
-                size: 11,
-                weight: 600
-              }
-            }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: 12,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-            borderWidth: 1,
-            callbacks: {
-              label: function(context) {
-                const percentage = {{ metrics.stock_health.healthy_pct if metrics.stock_health else 0 }};
-                const percentages = [
-                  {{ metrics.stock_health.healthy_pct }},
-                  {{ metrics.stock_health.warning_pct }},
-                  {{ metrics.stock_health.critical_pct }}
-                ];
-                return context.label + ': ' + context.parsed + ' (' + percentages[context.dataIndex] + '%)';
-              }
-            }
-          }
-        },
-        animation: {
-          duration: 1000,
-          easing: 'easeInOutQuart'
-        }
-      }
-    });
-  </script>
+</script>
 {% endblock %}

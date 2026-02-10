@@ -76,7 +76,22 @@ def home():
             outbound_data.append(0)
     else:
         for day in daily_movements:
-            chart_labels.append(day.date.strftime("%m/%d") if day.date else "")
+            # Handle possible string return from func.date() (e.g. SQLite returns 'YYYY-MM-DD')
+            date_val = day.date
+            if isinstance(date_val, str):
+                try:
+                    # Parse YYYY-MM-DD string
+                    date_obj = datetime.strptime(date_val, "%Y-%m-%d")
+                    chart_labels.append(date_obj.strftime("%m/%d"))
+                except ValueError:
+                    # Fallback if format is unexpected
+                    chart_labels.append(date_val)
+            elif date_val:
+                # It's a date/datetime object
+                chart_labels.append(date_val.strftime("%m/%d"))
+            else:
+                chart_labels.append("")
+
             inbound_data.append(int(day.inbound or 0))
             outbound_data.append(int(day.outbound or 0))
     
@@ -90,44 +105,6 @@ def home():
     
     category_labels = [cat.name for cat in category_data] if category_data else []
     category_counts = [int(cat.count or 0) for cat in category_data] if category_data else []
-    
-    # Get stock value trend for last 7 days
-    stock_value_trend_labels = []
-    stock_value_trend_data = []
-    
-    for i in range(6, -1, -1):
-        date = datetime.utcnow() - timedelta(days=i)
-        # Note: This is a simplified calculation. In production, you'd want to track historical values
-        # For now, we'll use current stock value as baseline
-        stock_value_trend_labels.append(date.strftime("%m/%d"))
-        stock_value_trend_data.append(round(stock_value, 2))
-    
-    # Get top 5 products by quantity
-    top_products = db.session.query(
-        Product.name,
-        Product.quantity,
-        Category.name.label('category_name')
-    ).join(Category, Product.category_id == Category.id, isouter=True).order_by(
-        Product.quantity.desc()
-    ).limit(5).all()
-    
-    top_products_labels = [p.name for p in top_products] if top_products else []
-    top_products_data = [int(p.quantity) for p in top_products] if top_products else []
-    
-    # Calculate stock health metrics
-    healthy_count = Product.query.filter(Product.quantity >= 20).count()
-    warning_count = Product.query.filter(Product.quantity >= 10, Product.quantity < 20).count()
-    critical_count = Product.query.filter(Product.quantity < 10).count()
-    
-    total_products = product_count if product_count > 0 else 1  # Avoid division by zero
-    stock_health = {
-        "healthy": healthy_count,
-        "warning": warning_count,
-        "critical": critical_count,
-        "healthy_pct": round((healthy_count / total_products) * 100, 1),
-        "warning_pct": round((warning_count / total_products) * 100, 1),
-        "critical_pct": round((critical_count / total_products) * 100, 1)
-    }
     
     return render_template(
         "pages/dashboard.html",
@@ -143,12 +120,6 @@ def home():
             "outbound_data": outbound_data,
             "category_labels": category_labels,
             "category_counts": category_counts,
-            # New data for enhanced charts
-            "stock_value_trend_labels": stock_value_trend_labels,
-            "stock_value_trend_data": stock_value_trend_data,
-            "top_products_labels": top_products_labels,
-            "top_products_data": top_products_data,
-            "stock_health": stock_health,
         },
     )
 

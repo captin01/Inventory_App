@@ -1,0 +1,36 @@
+name,sku,price,quantity,category_name
+Laptop Pro 15,TECH-LAP-001,1200.00,50,Electronics
+Wireless Mouse,TECH-ACC-002,25.50,150,Accessories
+Mechanical Keyboard,TECH-ACC-003,85.00,80,Accessories
+Monitor 27 Inch,TECH-MON-004,300.00,40,Electronics
+USB-C Hub,TECH-ACC-005,45.00,100,Accessories
+Smartphone X,TECH-PHO-006,800.00,60,Electronics
+Noise Cancelling Headphones,TECH-AUD-007,250.00,75,Audio
+Bluetooth Speaker,TECH-AUD-008,120.00,90,Audio
+External SSD 1TB,TECH-STO-009,150.00,120,Storage
+Gaming Headset,TECH-AUD-010,95.00,55,Audio
+Smart Watch Series 5,TECH-WEA-011,199.99,100,Wearables
+Tablet 10.5 Inch,TECH-TAB-012,350.00,45,Electronics
+Wi-Fi Router 6,TECH-NET-013,129.99,35,Networking
+Action Camera 4K,TECH-CAM-014,299.00,25,Cameras
+Drone Mini,TECH-CAM-015,450.00,15,Cameras
+VR Headset,TECH-GAM-016,399.00,20,Gaming
+Gaming Console Pro,TECH-GAM-017,499.00,30,Gaming
+Wireless Earbuds,TECH-AUD-018,129.00,200,Audio
+Power Bank 20000mAh,TECH-ACC-019,39.99,150,Accessories
+Webcam 1080p,TECH-ACC-020,59.99,85,Accessories
+Microphone Condenser,TECH-AUD-021,89.99,40,Audio
+Graphics Card RTX,TECH-COM-022,699.00,10,Components
+CPU Processor i9,TECH-COM-023,550.00,15,Components
+RAM 32GB Kit,TECH-COM-024,140.00,50,Components
+Motherboard Z590,TECH-COM-025,180.00,25,Components
+Smart Home Hub,TECH-SMA-026,89.99,60,Smart Home
+Security Camera,TECH-SMA-027,49.99,80,Smart Home
+Smart Light Bulb,TECH-SMA-028,15.99,200,Smart Home
+Robot Vacuum,TECH-HOM-029,249.00,30,Home Appliances
+Air Purifier,TECH-HOM-030,129.00,40,Home Appliances
+Drawing Tablet,TECH-CRE-031,199.00,25,Creative
+3D Printer,TECH-CRE-032,350.00,10,Creative
+Projector 4K,TECH-HOM-033,599.00,15,Home Cinema
+Soundbar,TECH-HOM-034,149.00,45,Home Cinema
+E-Reader,TECH-TAB-035,119.00,70,Electronics

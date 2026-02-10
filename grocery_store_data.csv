@@ -1,0 +1,36 @@
+name,sku,price,quantity,category_name
+Organic Bananas (Bunch),GRO-FRU-001,2.99,200,Produce
+Red Apples (1kg Bag),GRO-FRU-002,4.50,150,Produce
+Whole Milk (1 Gallon),GRO-DAI-003,3.75,80,Dairy
+Cheddar Cheese Block,GRO-DAI-004,5.50,60,Dairy
+Large Eggs (Dozen),GRO-DAI-005,3.25,120,Dairy
+Sourdough Bread,GRO-BAK-006,4.99,40,Bakery
+Croissants (4 Pack),GRO-BAK-007,5.99,30,Bakery
+Chicken Breast (1kg),GRO-MEA-008,9.99,50,Meat
+Ground Beef (1kg),GRO-MEA-009,8.50,45,Meat
+Salmon Fillet,GRO-SEA-010,12.99,25,Seafood
+Pasta (500g),GRO-PAN-011,1.50,200,Pantry
+Tomato Sauce,GRO-PAN-012,2.25,150,Pantry
+Rice Basmati (5kg),GRO-PAN-013,11.50,100,Pantry
+Olive Oil (500ml),GRO-PAN-014,8.99,75,Pantry
+Cola (12 Pack),GRO-BEV-015,6.50,90,Beverages
+Orange Juice (1L),GRO-BEV-016,3.99,60,Beverages
+Potato Chips (Family Size),GRO-SNA-017,4.25,110,Snacks
+Chocolate Bar,GRO-SNA-018,1.25,300,Snacks
+Almonds (Roasted),GRO-SNA-019,9.50,85,Snacks
+Toilet Paper (12 Rolls),GRO-HOU-020,7.99,100,Household
+Laundry Detergent,GRO-HOU-021,12.50,50,Household
+Dish Soap,GRO-HOU-022,3.25,120,Household
+Shampoo,GRO-PER-023,6.50,70,Personal Care
+Toothpaste,GRO-PER-024,2.99,150,Personal Care
+Shower Gel,GRO-PER-025,4.50,80,Personal Care
+Green Tea (Box),GRO-BEV-026,3.99,90,Beverages
+Coffee Beans (1kg),GRO-BEV-027,15.99,60,Beverages
+Energy Drink,GRO-BEV-028,2.50,150,Beverages
+Cat Food (Can),GRO-PET-029,1.25,200,Pet Supplies
+Dog Food (5kg),GRO-PET-030,12.99,40,Pet Supplies
+Frozen Pizza,GRO-FRO-031,5.50,80,Frozen
+Ice Cream (Tub),GRO-FRO-032,4.99,70,Frozen
+Avocado (Each),GRO-FRU-033,1.50,90,Produce
+Cucumber (Each),GRO-VEG-034,0.99,120,Produce
+Carrots (1kg),GRO-VEG-035,1.99,100,Produce
