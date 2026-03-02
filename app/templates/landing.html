@@ -3,15 +3,16 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Inventory Pro | Future of Management</title>
+    <title>Inventory Pro | Smarter Inventory Management</title>
+    <meta name="description" content="Inventory Pro helps businesses of all sizes track products, manage stock movements, and make data-driven decisions — all in one sleek, fast platform."/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
       :root {
-        --bg-dark: #0c0e14;
+        --bg-dark: #000000;
         --bg-medium: #11141d;
         --bg-card: rgba(255, 255, 255, 0.03);
         --text-primary: #ffffff;
@@ -19,508 +20,1055 @@
         --accent: #3b82f6;
         --accent-light: #8b5cf6;
         --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.18);
       }
-      
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
       body {
         font-family: 'Outfit', sans-serif;
         background: var(--bg-dark);
         color: var(--text-primary);
         overflow-x: hidden;
       }
-      
-      /* Navbar */
+
+      /* ========================
+         NAVBAR
+      ======================== */
       .navbar-landing {
-        background: rgba(12, 14, 20, 0.8);
+        background: rgba(0, 0, 0, 0.75);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid var(--border);
         padding: 1rem 0;
         transition: all 0.3s ease;
       }
-      
+
       .navbar-landing.scrolled {
-        background: rgba(12, 14, 20, 0.95);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.97);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.6);
       }
-      
+
       .navbar-brand {
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         color: var(--text-primary) !important;
+        letter-spacing: -0.01em;
       }
-      
+
+      .brand-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        border-radius: 8px;
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+
       .nav-link {
         color: var(--text-secondary) !important;
         font-weight: 500;
         transition: color 0.3s ease;
+        padding: 0.5rem 0.9rem !important;
       }
-      
-      .nav-link:hover {
-        color: var(--text-primary) !important;
-      }
-      
+
+      .nav-link:hover { color: var(--text-primary) !important; }
+
       .btn-nav {
         background: var(--accent);
         color: var(--text-primary);
-        padding: 0.6rem 1.8rem;
+        padding: 0.55rem 1.6rem;
         border-radius: 100px;
         font-weight: 600;
         border: none;
         transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.95rem;
       }
-      
+
       .btn-nav:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.45);
+        color: #fff;
       }
-      
-      /* Hero Section */
+
+      /* ========================
+         HERO
+      ======================== */
       .hero-section {
         min-height: 100vh;
         display: flex;
         align-items: center;
         position: relative;
         background: var(--bg-dark);
-        padding-top: 80px;
+        padding-top: 85px;
       }
-      
+
       .hero-section::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-          radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        top: 0; left: 0; right: 0; bottom: 0;
+        background:
+          radial-gradient(circle at 18% 52%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 82% 78%, rgba(139, 92, 246, 0.12) 0%, transparent 50%);
         pointer-events: none;
       }
-      
+
       .grid-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: 
-          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
         background-size: 50px 50px;
-        mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%);
+        mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
         pointer-events: none;
       }
-      
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(59,130,246,0.1);
+        border: 1px solid rgba(59,130,246,0.25);
+        color: #60a5fa;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-badge-dot {
+        width: 7px; height: 7px;
+        background: #3b82f6;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(59,130,246,0.8);
+        animation: glow-pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes glow-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.3); opacity: 0.7; }
+      }
+
       .hero-title {
-        font-size: 4.5rem;
+        font-size: 4.2rem;
         font-weight: 800;
         margin-bottom: 1.5rem;
-        line-height: 1.1;
-        background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, #ffffff 0%, #c4d4f0 60%, #94a3b8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-      
+
       .hero-subtitle {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         color: var(--text-secondary);
         margin-bottom: 2.5rem;
-        line-height: 1.6;
-        max-width: 600px;
+        line-height: 1.65;
+        max-width: 560px;
       }
-      
+
       .btn-hero {
-        padding: 1.2rem 3rem;
-        font-size: 1.1rem;
+        padding: 1rem 2.6rem;
+        font-size: 1.05rem;
         font-weight: 600;
         border-radius: 100px;
         transition: all 0.3s ease;
         border: none;
+        text-decoration: none;
+        display: inline-block;
       }
-      
+
       .btn-hero-primary {
         background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-        color: var(--text-primary);
+        color: #fff;
+        box-shadow: 0 4px 20px rgba(59,130,246,0.35);
       }
-      
+
       .btn-hero-primary:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+        box-shadow: 0 12px 32px rgba(59, 130, 246, 0.55);
+        color: #fff;
       }
-      
+
       .btn-hero-secondary {
         background: rgba(255, 255, 255, 0.05);
         color: var(--text-primary);
         border: 1px solid var(--border);
         backdrop-filter: blur(10px);
       }
-      
+
       .btn-hero-secondary:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.09);
         transform: translateY(-3px);
+        color: #fff;
       }
-      
-      .hero-image {
-        position: relative;
-        z-index: 2;
-      }
-      
+
       .hero-card {
         background: var(--bg-card);
         border: 1px solid var(--border);
-        border-radius: 40px;
-        padding: 0;
-        box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-        position: relative;
+        border-radius: 32px;
         overflow: hidden;
-        min-height: 500px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+        position: relative;
       }
-      
-      .hero-card::before {
+
+      .hero-card::after {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(74, 85, 104, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%);
+        pointer-events: none;
         z-index: 1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
       }
-      
-      .hero-card:hover::before {
-        opacity: 1;
-      }
-      
+
       .hero-card img {
         width: 100%;
-        height: 100%;
-        min-height: 400px;
+        height: 400px;
         object-fit: cover;
         display: block;
-        transition: transform 0.3s ease;
-        border-radius: 20px;
+        transition: transform 0.5s ease;
       }
-      
-      .hero-card:hover img {
-        transform: scale(1.05);
+
+      .hero-card:hover img { transform: scale(1.04); }
+
+      /* ========================
+         STATS BAR
+      ======================== */
+      .stats-bar {
+        background: var(--bg-medium);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 3rem 0;
       }
-      
-      /* Features Section */
+
+      .stat-item {
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .stat-number {
+        font-size: 2.6rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        margin-bottom: 0.4rem;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .stat-divider {
+        width: 1px;
+        height: 50px;
+        background: var(--border);
+        margin: auto;
+      }
+
+      /* ========================
+         HOW IT WORKS
+      ======================== */
+      .how-section {
+        padding: 8rem 0;
+        background: var(--bg-dark);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .how-section::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .section-eyebrow {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.75rem;
+      }
+
+      .section-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+
+      .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        line-height: 1.65;
+        max-width: 520px;
+      }
+
+      .step-item {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        flex-shrink: 0;
+        width: 48px; height: 48px;
+        background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+        border: 1px solid rgba(59,130,246,0.3);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--accent);
+        transition: all 0.3s ease;
+      }
+
+      .step-item:hover .step-number {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+      }
+
+      .step-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.4rem;
+      }
+
+      .step-text {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .how-image-wrap {
+        position: relative;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+      }
+
+      .how-image-wrap img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .how-image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.1) 100%);
+      }
+
+      .floating-badge {
+        position: absolute;
+        bottom: 2rem;
+        left: 2rem;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1rem 1.4rem;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .floating-badge-icon {
+        width: 40px; height: 40px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+      }
+
+      .floating-badge-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .floating-badge-sub {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+      }
+
+      /* ========================
+         FEATURES
+      ======================== */
       .features-section {
         padding: 8rem 0;
         background: var(--bg-medium);
         position: relative;
       }
-      
-      .section-title {
-        font-size: 3rem;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        text-align: center;
+
+      .features-section::before {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 600px; height: 400px;
+        background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+        pointer-events: none;
       }
-      
-      .section-subtitle {
-        font-size: 1.25rem;
-        color: var(--text-secondary);
-        text-align: center;
-        margin-bottom: 4rem;
-      }
-      
+
       .feature-card {
         background: var(--bg-card);
         backdrop-filter: blur(10px);
         border: 1px solid var(--border);
-        border-radius: 32px;
-        padding: 3rem;
+        border-radius: 28px;
+        padding: 2.5rem;
         height: 100%;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
       }
-      
+
       .feature-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 0; left: 0; right: 0;
         height: 2px;
         background: linear-gradient(90deg, transparent, var(--accent), transparent);
         transform: scaleX(0);
         transition: transform 0.4s ease;
       }
-      
+
       .feature-card:hover {
-        transform: translateY(-12px);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        transform: translateY(-10px);
+        border-color: var(--border-hover);
+        box-shadow: 0 24px 60px rgba(0,0,0,0.5);
       }
-      
-      .feature-card:hover::before {
-        transform: scaleX(1);
-      }
-      
+
+      .feature-card:hover::before { transform: scaleX(1); }
+
       .feature-icon {
-        width: 64px;
-        height: 64px;
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 58px; height: 58px;
+        background: linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(139,92,246,0.12) 100%);
+        border: 1px solid rgba(255,255,255,0.1);
         border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.75rem;
         color: var(--accent);
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         transition: all 0.3s ease;
       }
-      
+
       .feature-card:hover .feature-icon {
         background: var(--accent);
         color: #fff;
         transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 0 24px rgba(59,130,246,0.45);
+        border-color: transparent;
       }
-      
+
       .feature-title {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         color: var(--text-primary);
       }
-      
+
       .feature-text {
         color: var(--text-secondary);
         line-height: 1.7;
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
-      
-      /* CTA Section */
-      .cta-section {
-        padding: 10rem 0;
+
+      /* ========================
+         SHOWCASE / APP PREVIEW
+      ======================== */
+      .showcase-section {
+        padding: 8rem 0;
         background: var(--bg-dark);
         position: relative;
         overflow: hidden;
       }
-      
-      .cta-content {
+
+      .showcase-section::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px; height: 800px;
+        background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 65%);
+        pointer-events: none;
+      }
+
+      .showcase-img-wrap {
         position: relative;
-        z-index: 1;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+      }
+
+      .showcase-img-wrap img {
+        width: 100%;
+        height: 360px;
+        object-fit: cover;
+        display: block;
+        filter: brightness(0.85);
+      }
+
+      .showcase-img-wrap .img-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, transparent 60%);
+      }
+
+      .testimonial-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .testimonial-card:hover {
+        border-color: var(--border-hover);
+        background: rgba(255,255,255,0.06);
+      }
+
+      .testimonial-quote {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+        font-style: italic;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .author-avatar {
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(59,130,246,0.3);
+      }
+
+      .author-name {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text-primary);
+      }
+
+      .author-role {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .star-row { color: #f59e0b; font-size: 0.85rem; margin-bottom: 0.75rem; }
+
+      /* ========================
+         CTA
+      ======================== */
+      .cta-section {
+        padding: 10rem 0;
+        background: var(--bg-medium);
+        position: relative;
+        overflow: hidden;
         text-align: center;
       }
-      
+
+      .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px; height: 500px;
+        background:
+          radial-gradient(ellipse at center, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.1) 40%, transparent 70%);
+        pointer-events: none;
+      }
+
+      .cta-section::after {
+        content: '';
+        position: absolute;
+        top: -2px; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(59,130,246,0.5), rgba(139,92,246,0.5), transparent);
+      }
+
       .cta-title {
-        font-size: 3.5rem;
+        font-size: 3.2rem;
         font-weight: 800;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.02em;
+        position: relative;
+        z-index: 1;
       }
-      
+
       .cta-subtitle {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         color: var(--text-secondary);
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
+        position: relative;
+        z-index: 1;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.65;
+        margin-bottom: 2.8rem;
       }
-      
-      footer p {
+
+      .cta-buttons { position: relative; z-index: 1; }
+
+      .cta-note {
+        font-size: 0.82rem;
         color: var(--text-secondary);
+        margin-top: 1rem;
+        opacity: 0.7;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ========================
+         FOOTER
+      ======================== */
+      footer {
+        background: var(--bg-dark);
+        border-top: 1px solid var(--border);
+        padding: 3rem 0 2rem;
+      }
+
+      .footer-brand {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-tagline {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
         margin: 0;
       }
-      
-      /* Responsive */
-      @media (max-width: 768px) {
-        .hero-title {
-          font-size: 2.5rem;
-        }
-        
-        .hero-subtitle {
-          font-size: 1rem;
-        }
-        
-        .section-title {
-          font-size: 2rem;
-        }
-        
-        .cta-title {
-          font-size: 2rem;
-        }
-        
-        .hero-card {
-          padding: 0;
-        }
-        
-        .hero-card img {
-          border-radius: 12px;
-        }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
       }
-      
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
+
+      .footer-links a:hover { color: var(--text-primary); }
+
+      .footer-divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0 1.5rem;
+      }
+
+      .footer-copy {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin: 0;
+      }
+
+      /* ========================
+         SCROLL ANIMATIONS
+      ======================== */
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+
+      .scroll-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .scroll-reveal-delay-1 { transition-delay: 0.1s; }
+      .scroll-reveal-delay-2 { transition-delay: 0.2s; }
+      .scroll-reveal-delay-3 { transition-delay: 0.3s; }
+      .scroll-reveal-delay-4 { transition-delay: 0.4s; }
+      .scroll-reveal-delay-5 { transition-delay: 0.5s; }
+
+      /* ========================
+         RESPONSIVE
+      ======================== */
+      @media (max-width: 991px) {
+        .hero-title { font-size: 2.8rem; }
+        .section-title { font-size: 2.2rem; }
+        .cta-title { font-size: 2.2rem; }
+        .hero-card img { height: 340px; }
+        .how-image-wrap img { height: 380px; }
+        .stat-divider { display: none; }
+      }
+
+      @media (max-width: 575px) {
+        .hero-title { font-size: 2.2rem; }
+        .hero-subtitle { font-size: 1rem; }
+        .stat-number { font-size: 2rem; }
+        .section-title { font-size: 1.9rem; }
+        .cta-title { font-size: 1.9rem; }
+        .footer-links { justify-content: flex-start; margin-top: 1rem; gap: 1.2rem; }
       }
     </style>
   </head>
   <body>
+
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-landing fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-landing fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="{{ url_for('main.landing') }}">📦 Inventory Pro</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a class="navbar-brand" href="{{ url_for('main.landing') }}">
+          <span class="brand-icon">📦</span>Inventory Pro
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
+          <ul class="navbar-nav ms-auto align-items-center gap-1">
             <li class="nav-item">
               <a class="nav-link" href="#features">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#how-it-works">How It Works</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </li>
             <li class="nav-item ms-2">
-              <a class="btn btn-nav" href="{{ url_for('auth.signup') }}">Sign Up</a>
+              <a class="btn btn-nav" href="{{ url_for('auth.signup') }}">Sign Up Free</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ============================
+         HERO SECTION
+    ============================= -->
     <section class="hero-section">
       <div class="grid-overlay"></div>
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-6 hero-content">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <div class="hero-badge">
+              <div class="hero-badge-dot"></div>
+              Now with multi-user support
+            </div>
             <h1 class="hero-title">Manage Your Inventory Like a Pro</h1>
             <p class="hero-subtitle">
-              Streamline your inventory management with our powerful, easy-to-use platform. 
-              Track products, monitor stock levels, and make data-driven decisions.
+              Streamline your inventory management with our powerful, easy-to-use platform.
+              Track products, monitor stock levels, and make data-driven decisions — all from one place.
             </p>
             <div class="d-flex gap-3 flex-wrap">
               <a href="{{ url_for('auth.signup') }}" class="btn btn-hero btn-hero-primary">
                 Get Started Free
               </a>
-              <a href="{{ url_for('auth.login') }}" class="btn btn-hero btn-hero-secondary">
-                Sign In
+              <a href="#how-it-works" class="btn btn-hero btn-hero-secondary">
+                <i class="bi bi-arrow-down-circle me-2"></i>See How It Works
               </a>
             </div>
           </div>
-          <div class="col-lg-6 hero-image text-center mt-5 mt-lg-0">
+          <div class="col-lg-6 mt-5 mt-lg-0">
             <div class="hero-card">
-              <img src="https://images.unsplash.com/photo-1520038410233-7141be7e6f97?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Inventory Management">
+              <img src="https://images.unsplash.com/photo-1520038410233-7141be7e6f97?q=80&w=800&auto=format&fit=crop" alt="Inventory Management">
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Features Section -->
+
+
+    <!-- ============================
+         HOW IT WORKS
+    ============================= -->
+    <section class="how-section" id="how-it-works">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <!-- Steps -->
+          <div class="col-lg-5">
+            <p class="section-eyebrow scroll-reveal">How It Works</p>
+            <h2 class="section-title scroll-reveal scroll-reveal-delay-1">Up and running in three simple steps</h2>
+            <p class="section-subtitle scroll-reveal scroll-reveal-delay-2">
+              No complex setup. No expensive consultants. Just sign up, add your products, and start managing smarter.
+            </p>
+
+            <div class="step-item scroll-reveal scroll-reveal-delay-2">
+              <div class="step-number">1</div>
+              <div>
+                <div class="step-title">Add Your Products</div>
+                <div class="step-text">Import your product catalogue or add items manually. Assign categories, SKUs, pricing, and set reorder thresholds with ease.</div>
+              </div>
+            </div>
+
+            <div class="step-item scroll-reveal scroll-reveal-delay-3">
+              <div class="step-number">2</div>
+              <div>
+                <div class="step-title">Track Every Movement</div>
+                <div class="step-text">Record inbound stock deliveries and outbound sales automatically. Every movement is logged with timestamps for a complete audit trail.</div>
+              </div>
+            </div>
+
+            <div class="step-item scroll-reveal scroll-reveal-delay-4">
+              <div class="step-number">3</div>
+              <div>
+                <div class="step-title">Analyse & Report</div>
+                <div class="step-text">Get a live dashboard with stock levels, low-stock alerts, and movement history. Make confident buying and selling decisions backed by data.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image -->
+          <div class="col-lg-7 scroll-reveal scroll-reveal-delay-2">
+            <div class="how-image-wrap">
+              <img src="https://images.unsplash.com/photo-1604328698692-f76ea9498e76?q=80&w=800&auto=format&fit=crop" alt="Team working with inventory data on laptops" loading="lazy">
+              <div class="how-image-overlay"></div>
+              <div class="floating-badge">
+                <div class="floating-badge-icon">✅</div>
+                <div>
+                  <div class="floating-badge-title">Stock Alert Resolved</div>
+                  <div class="floating-badge-sub">Low stock restocked — 240 units added</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         FEATURES
+    ============================= -->
     <section class="features-section" id="features">
       <div class="container">
-        <h2 class="section-title">Everything You Need</h2>
-        <p class="section-subtitle">Powerful features to manage your inventory efficiently</p>
-        
+        <div class="text-center mb-5">
+          <p class="section-eyebrow scroll-reveal">Features</p>
+          <h2 class="section-title scroll-reveal scroll-reveal-delay-1">Everything You Need</h2>
+          <p class="section-subtitle mx-auto scroll-reveal scroll-reveal-delay-2" style="max-width:520px; margin-bottom:0;">
+            Powerful tools built for businesses of every size — from a single shop to a multi-location operation.
+          </p>
+        </div>
+
         <div class="row g-4">
-          <div class="col-md-6 col-lg-4">
+          <div class="col-md-6 col-lg-4 scroll-reveal">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-boxes"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-boxes"></i></div>
               <h4 class="feature-title">Product Management</h4>
-              <p class="feature-text">Organize your products with categories, SKUs, and detailed information. Keep track of everything in one place.</p>
+              <p class="feature-text">Organise products with categories, SKUs, and rich details. Keep your entire catalogue structured and instantly searchable.</p>
             </div>
           </div>
-          
-          <div class="col-md-6 col-lg-4">
+
+          <div class="col-md-6 col-lg-4 scroll-reveal scroll-reveal-delay-1">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-arrow-left-right"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-arrow-left-right"></i></div>
               <h4 class="feature-title">Stock Movements</h4>
-              <p class="feature-text">Track inbound and outbound stock movements with timestamps and detailed notes for complete audit trails.</p>
+              <p class="feature-text">Track inbound and outbound stock with timestamps and notes. Maintain a full, searchable audit trail for every item.</p>
             </div>
           </div>
-          
-          <div class="col-md-6 col-lg-4">
+
+          <div class="col-md-6 col-lg-4 scroll-reveal scroll-reveal-delay-2">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-graph-up"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
               <h4 class="feature-title">Real-time Analytics</h4>
-              <p class="feature-text">Get insights with real-time dashboards, low stock alerts, and comprehensive reporting tools.</p>
+              <p class="feature-text">Live dashboards, low-stock alerts, and movement reports give you the insights to make confident, well-timed decisions.</p>
             </div>
           </div>
-          
-          <div class="col-md-6 col-lg-4">
+
+          <div class="col-md-6 col-lg-4 scroll-reveal scroll-reveal-delay-1">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-shield-check"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
               <h4 class="feature-title">Secure & Reliable</h4>
-              <p class="feature-text">Your data is protected with industry-standard security measures and regular backups.</p>
+              <p class="feature-text">Your business data is protected with industry-standard encryption and hosted with 99.9% uptime guarantee.</p>
             </div>
           </div>
-          
-          <div class="col-md-6 col-lg-4">
+
+          <div class="col-md-6 col-lg-4 scroll-reveal scroll-reveal-delay-2">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-people"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-people"></i></div>
               <h4 class="feature-title">Role-Based Access</h4>
-              <p class="feature-text">Control access with role-based permissions for admin, manager, and staff members.</p>
+              <p class="feature-text">Grant the right permissions to admins, managers, and staff. Everyone sees exactly what they need — nothing more.</p>
             </div>
           </div>
-          
-          <div class="col-md-6 col-lg-4">
+
+          <div class="col-md-6 col-lg-4 scroll-reveal scroll-reveal-delay-3">
             <div class="feature-card">
-              <div class="feature-icon">
-                <i class="bi bi-device-ssd"></i>
-              </div>
+              <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
               <h4 class="feature-title">Fast & Responsive</h4>
-              <p class="feature-text">Lightning-fast performance with a modern, mobile-responsive interface that works everywhere.</p>
+              <p class="feature-text">Built for speed. Works perfectly on desktop, tablet, and mobile — whether you're in the office or on the warehouse floor.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- ============================
+         SHOWCASE / TESTIMONIALS
+    ============================= -->
+    <section class="showcase-section">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <!-- Image -->
+          <div class="col-lg-6 scroll-reveal">
+            <div class="showcase-img-wrap">
+              <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=800&auto=format&fit=crop" alt="Warehouse worker using inventory system on tablet" loading="lazy">
+              <div class="img-overlay"></div>
+            </div>
+          </div>
+
+          <!-- Testimonials -->
+          <div class="col-lg-6">
+            <p class="section-eyebrow scroll-reveal">Trusted by Teams</p>
+            <h2 class="section-title scroll-reveal scroll-reveal-delay-1">Built for real businesses</h2>
+            <p class="section-subtitle scroll-reveal scroll-reveal-delay-2">
+              From grocery stores to tech retailers, Inventory Pro adapts to the way your team already works.
+            </p>
+
+            <div class="testimonial-card scroll-reveal scroll-reveal-delay-2">
+              <div class="star-row">★★★★★</div>
+              <p class="testimonial-quote">"We cut our stock discrepancies by over 80% in the first month. The movement tracking is spot on and the low-stock alerts have saved us multiple times."</p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=80&auto=format&fit=crop" alt="Sarah K." class="author-avatar">
+                <div>
+                  <div class="author-name">Sarah K.</div>
+                  <div class="author-role">Store Manager, Fresh Basket Grocery</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card scroll-reveal scroll-reveal-delay-3">
+              <div class="star-row">★★★★★</div>
+              <p class="testimonial-quote">"Setting up was incredibly fast. Within a day we had all 1,200 SKUs loaded and the whole team was using it comfortably."</p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=80&auto=format&fit=crop" alt="James L." class="author-avatar">
+                <div>
+                  <div class="author-name">James L.</div>
+                  <div class="author-role">Ops Director, TechZone Electronics</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         CTA SECTION
+    ============================= -->
     <section class="cta-section">
       <div class="container">
-        <div class="cta-content">
-          <h2 class="cta-title">Ready to Get Started?</h2>
-          <p class="cta-subtitle">Join thousands of businesses managing their inventory efficiently</p>
-          <a href="{{ url_for('auth.signup') }}" class="btn btn-hero btn-hero-primary btn-lg px-5">
+        <h2 class="cta-title">Ready to Take Control?</h2>
+        <p class="cta-subtitle">
+          Join businesses already running smarter operations with Inventory Pro. Set up your account in under five minutes — no credit card required.
+        </p>
+        <div class="cta-buttons d-flex gap-3 justify-content-center flex-wrap">
+          <a href="{{ url_for('auth.signup') }}" class="btn btn-hero btn-hero-primary">
             Create Free Account
           </a>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-hero btn-hero-secondary">
+            Sign In
+          </a>
         </div>
+        <p class="cta-note">No credit card needed &nbsp;·&nbsp; Free to start &nbsp;·&nbsp; Cancel anytime</p>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ============================
+         FOOTER
+    ============================= -->
     <footer>
-      <div class="container text-center">
-        <p>&copy; 2025 Inventory Pro. All rights reserved.</p>
+      <div class="container">
+        <div class="row align-items-start">
+          <div class="col-lg-5 mb-4 mb-lg-0">
+            <div class="footer-brand">
+              <span class="brand-icon" style="font-size:0.8rem;">📦</span>
+              Inventory Pro
+            </div>
+            <p class="footer-tagline">
+              A smarter way to manage your stock.<br>
+              Built for growing businesses that need clarity and control.
+            </p>
+          </div>
+          <div class="col-lg-7 d-flex align-items-center justify-content-lg-end">
+            <ul class="footer-links">
+              <li><a href="#features">Features</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+              <li><a href="{{ url_for('auth.signup') }}" class="btn btn-nav" style="padding:0.45rem 1.2rem; font-size:0.88rem;">Sign Up</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="footer-divider">
+        <p class="footer-copy">© 2026 Inventory Pro. All rights reserved.</p>
       </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // Add scrolled class to navbar on scroll
-      window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar-landing');
-        if (window.scrollY > 50) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
+      // Navbar scroll effect
+      const nav = document.getElementById('mainNav');
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 50);
       });
+
+      // Scroll-reveal via IntersectionObserver
+      const revealElements = document.querySelectorAll('.scroll-reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealElements.forEach(el => observer.observe(el));
     </script>
   </body>
 </html>

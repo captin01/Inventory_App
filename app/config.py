@@ -11,6 +11,7 @@ class Config:
         "mysql+mysqlconnector://root:@localhost:3306/inventory_db",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    TEMPLATES_AUTO_RELOAD = True
     SESSION_COOKIE_HTTPONLY = True
     PREFERRED_URL_SCHEME = "https"
 
