@@ -10,33 +10,19 @@
             <p class="text-secondary mb-0">Real-time inventory insights and performance metrics.</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-light rounded-pill px-4">
+            <a href="{{ url_for('stock.export_movements') }}" class="btn btn-outline-light rounded-pill px-4">
                 <i class="bi bi-download me-2"></i>Export Report
-            </button>
-            <button class="btn btn-primary rounded-pill px-4">
+            </a>
+            <a href="{{ url_for('product.create_product') }}" class="btn btn-primary rounded-pill px-4">
                 <i class="bi bi-plus-lg me-2"></i>Add Product
-            </button>
+            </a>
         </div>
     </div>
 
     <!-- Bento Grid -->
-    <div class="bento-grid">
-        <!-- Main Chart -->
-        <div class="glass-card bento-item large">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="h5 mb-0 fw-semibold">Stock Movements (7 Days)</h3>
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-link text-secondary" data-bs-toggle="dropdown">
-                        <i class="bi bi-three-dots"></i>
-                    </button>
-                </div>
-            </div>
-            <div style="height: 300px;">
-                <canvas id="movementsChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Key Metrics -->
+    <div class="bento-grid" style="grid-template-columns: repeat(4, 1fr);">
+        
+        <!-- Top Row: Key Metrics -->
         <div class="glass-card bento-item">
             <div class="stat-label">Total Stock Value</div>
             <div class="stat-value">${{ "{:,.2f}".format(metrics.stock_value) }}</div>
@@ -51,39 +37,60 @@
             <div class="text-secondary small">Across {{ metrics.category_count }} categories</div>
         </div>
 
-        <!-- Distribution Chart -->
-        <div class="glass-card bento-item tall">
-            <h3 class="h5 mb-4 fw-semibold">Category Distribution</h3>
-            <div style="height: 250px;">
-                <canvas id="categoryChart"></canvas>
-            </div>
-            <div class="mt-4">
-                {% for label in metrics.category_labels[:3] %}
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="small text-secondary">{{ label }}</span>
-                    <span class="small fw-medium">{{ metrics.category_counts[loop.index0] }} items</span>
-                </div>
-                {% endfor %}
-            </div>
+        <div class="glass-card bento-item">
+            <div class="stat-label">Total Categories</div>
+            <div class="stat-value">{{ metrics.category_count }}</div>
+            <div class="text-secondary small">Active classifications</div>
         </div>
 
-        <!-- Low Stock Alert -->
         <div class="glass-card bento-item {% if metrics.low_stock > 0 %}border-danger{% endif %}" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0) 100%);">
             <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3">
                     <i class="bi bi-exclamation-triangle text-danger"></i>
                 </div>
-                <div class="stat-label text-danger">Low Stock Items</div>
+                <div class="stat-label text-danger">Low Stock Alerts</div>
             </div>
-            <div class="stat-value text-danger">{{ metrics.low_stock }}</div>
-            <a href="{{ url_for('product.list_products') }}?low_stock=true" class="btn btn-sm btn-danger rounded-pill mt-2">View Items</a>
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <div class="stat-value text-danger" style="font-size: 2rem;">{{ metrics.low_stock }}</div>
+                <a href="{{ url_for('product.list_products') }}?low_stock=true" class="btn btn-sm btn-outline-danger rounded-pill">View All</a>
+            </div>
+            
+            {% if metrics.recent_low_stock %}
+            <div class="small fw-medium text-danger mb-1"><i class="bi bi-graph-down-arrow"></i> Fast dropping:</div>
+            <div class="small text-secondary text-truncate">
+                {% for item in metrics.recent_low_stock[:2] %}
+                {{ item.name }} ({{ item.quantity }}){% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
 
-        <!-- Recent Activity -->
-        <div class="glass-card bento-item wide tall">
+        <!-- Middle Row: Charts -->
+        <div class="glass-card bento-item large" style="grid-column: span 2;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="h5 mb-0 fw-semibold">Inventory Flow (7 Days)</h3>
+                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2">Mixed View</span>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="movementsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="glass-card bento-item large" style="grid-column: span 2;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="h5 mb-0 fw-semibold">Category Concentration</h3>
+                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-3 py-2">Polar Area</span>
+            </div>
+            <div style="height: 300px; display: flex; justify-content: center; align-items: center;">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Recent Activity -->
+        <div class="glass-card bento-item wide tall" style="grid-column: span 4; grid-row: span 2;">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="h5 mb-0 fw-semibold">Recent Movements</h3>
-                <a href="{{ url_for('stock.list_movements') }}" class="small text-primary text-decoration-none">View All</a>
+                <a href="{{ url_for('stock.list_movements') }}" class="btn btn-sm btn-glass text-decoration-none text-primary">View All Flow History <i class="bi bi-arrow-right ms-1"></i></a>
             </div>
             <div class="table-responsive">
                 <table class="custom-table">
@@ -100,10 +107,10 @@
                         <tr>
                             <td class="fw-medium">{{ move.product }}</td>
                             <td>
-                                <span class="badge-{{ move.type }}">{{ move.type|capitalize }}</span>
+                                <span class="badge-{{ move.type }}"><i class="bi {% if move.type == 'inbound' %}bi-arrow-down-left{% else %}bi-arrow-up-right{% endif %} me-1"></i>{{ move.type|capitalize }}</span>
                             </td>
-                            <td>{{ move.quantity }}</td>
-                            <td class="text-secondary small">{{ move.timestamp }}</td>
+                            <td><span class="fw-bold">{{ move.quantity }}</span> units</td>
+                            <td class="text-secondary small"><i class="bi bi-clock me-1"></i>{{ move.timestamp }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -114,13 +121,23 @@
 </div>
 
 <script>
-    // Stock Movements Chart
+    // Stock Movements Mixed Chart
     const ctxMovements = document.getElementById('movementsChart').getContext('2d');
     new Chart(ctxMovements, {
-        type: 'line',
+        type: 'bar', // Base type
         data: {
             labels: JSON.parse('{{ metrics.chart_labels|tojson|safe }}'),
             datasets: [{
+                type: 'bar', // Outbound as bars
+                label: 'Outbound',
+                data: JSON.parse('{{ metrics.outbound_data|tojson|safe }}'),
+                backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                borderColor: '#ef4444',
+                borderWidth: 1,
+                borderRadius: 4,
+                order: 2
+            }, {
+                type: 'line', // Inbound as a smooth line
                 label: 'Inbound',
                 data: JSON.parse('{{ metrics.inbound_data|tojson|safe }}'),
                 borderColor: '#10b981',
@@ -128,66 +145,99 @@
                 fill: true,
                 tension: 0.4,
                 borderWidth: 3,
-                pointRadius: 4,
-                pointBackgroundColor: '#10b981'
-            }, {
-                label: 'Outbound',
-                data: JSON.parse('{{ metrics.outbound_data|tojson|safe }}'),
-                borderColor: '#ef4444',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                fill: true,
-                tension: 0.4,
-                borderWidth: 3,
-                pointRadius: 4,
-                pointBackgroundColor: '#ef4444'
+                pointRadius: 5,
+                pointBackgroundColor: '#10b981',
+                order: 1
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             plugins: {
                 legend: {
                     display: true,
                     position: 'top',
-                    labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } }
+                    labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 }, usePointStyle: true }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#cbd5e1',
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                    padding: 10
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: '#94a3b8' }
+                    grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
+                    ticks: { color: '#94a3b8', padding: 10 }
                 },
                 x: {
-                    grid: { display: false },
-                    ticks: { color: '#94a3b8' }
+                    grid: { display: false, drawBorder: false },
+                    ticks: { color: '#94a3b8', padding: 10 }
                 }
             }
         }
     });
 
-    // Category Distribution Chart
+    // Category Distribution Polar Area Chart
     const ctxCategory = document.getElementById('categoryChart').getContext('2d');
     new Chart(ctxCategory, {
-        type: 'doughnut',
+        type: 'polarArea',
         data: {
             labels: JSON.parse('{{ metrics.category_labels|tojson|safe }}'),
             datasets: [{
+                label: 'Products in Category',
                 data: JSON.parse('{{ metrics.category_counts|tojson|safe }}'),
                 backgroundColor: [
-                    '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'
+                    'rgba(59, 130, 246, 0.7)',  // Blue
+                    'rgba(139, 92, 246, 0.7)',  // Purple
+                    'rgba(16, 185, 129, 0.7)',  // Green
+                    'rgba(245, 158, 11, 0.7)',  // Amber
+                    'rgba(239, 68, 68, 0.7)',   // Red
+                    'rgba(6, 182, 212, 0.7)'    // Cyan
                 ],
-                borderWidth: 0,
-                hoverOffset: 10
+                borderColor: 'rgba(12, 14, 20, 1)', // match the background
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '75%',
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    pointLabels: {
+                        color: '#cbd5e1',
+                        font: { family: 'Outfit', size: 11 }
+                    },
+                    ticks: {
+                        display: false // hide the numbers on the rings to keep it clean
+                    }
+                }
+            },
             plugins: {
                 legend: {
-                    display: false
+                    position: 'right',
+                    labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 }, usePointStyle: true, padding: 15 }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#cbd5e1',
+                    padding: 10,
+                    callbacks: {
+                        label: function(context) {
+                            return '  ' + context.label + ': ' + context.parsed.r + ' items';
+                        }
+                    }
                 }
             }
         }

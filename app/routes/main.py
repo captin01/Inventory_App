@@ -106,6 +106,17 @@ def home():
     category_labels = [cat.name for cat in category_data] if category_data else []
     category_counts = [int(cat.count or 0) for cat in category_data] if category_data else []
     
+    # Get recent low stock due to outbound movements
+    recent_low_stock = db.session.query(Product).join(StockMovement).filter(
+        StockMovement.movement_type == 'OUT',
+        StockMovement.timestamp >= seven_days_ago,
+        Product.quantity < 10
+    ).group_by(Product.id).limit(5).all()
+    
+    recent_low_stock_data = [
+        {"name": p.name, "quantity": p.quantity} for p in recent_low_stock
+    ]
+    
     return render_template(
         "pages/dashboard.html",
         metrics={
@@ -120,6 +131,7 @@ def home():
             "outbound_data": outbound_data,
             "category_labels": category_labels,
             "category_counts": category_counts,
+            "recent_low_stock": recent_low_stock_data,
         },
     )
 
