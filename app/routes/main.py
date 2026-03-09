@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from datetime import datetime, timedelta
 from sqlalchemy import func, case
 
@@ -47,53 +47,103 @@ def home():
             "timestamp": move.timestamp.strftime("%Y-%m-%d %H:%M") if move.timestamp else "N/A"
         })
     
-    # Get stock movements for last 7 days for chart
-    seven_days_ago = datetime.utcnow() - timedelta(days=7)
-    daily_movements = db.session.query(
-        func.date(StockMovement.timestamp).label('date'),
-        func.sum(case((StockMovement.movement_type == 'IN', StockMovement.quantity), else_=0)).label('inbound'),
-        func.sum(case((StockMovement.movement_type == 'OUT', StockMovement.quantity), else_=0)).label('outbound')
-    ).filter(
-        StockMovement.timestamp >= seven_days_ago
-    ).group_by(
-        func.date(StockMovement.timestamp)
-    ).order_by(
-        func.date(StockMovement.timestamp)
-    ).all()
+    month_filter = request.args.get('month', '0')
+    try:
+        month_filter = int(month_filter)
+    except ValueError:
+        month_filter = 0
     
-    # Prepare chart data
     chart_labels = []
     inbound_data = []
     outbound_data = []
+    today = datetime.utcnow()
+    year = today.year
+    seven_days_ago = today - timedelta(days=7)
     
-    # If no data, provide default empty arrays
-    if not daily_movements:
-        # Generate last 7 days labels
-        for i in range(6, -1, -1):
-            date = datetime.utcnow() - timedelta(days=i)
-            chart_labels.append(date.strftime("%m/%d"))
-            inbound_data.append(0)
-            outbound_data.append(0)
-    else:
+    if 1 <= month_filter <= 12:
+        # Get movements for the selected month in the current year
+        start_date = datetime(year, month_filter, 1)
+        if month_filter == 12:
+            end_date = datetime(year + 1, 1, 1)
+        else:
+            end_date = datetime(year, month_filter + 1, 1)
+            
+        days_in_month = (end_date - timedelta(days=1)).day
+        
+        daily_movements = db.session.query(
+            func.date(StockMovement.timestamp).label('date'),
+            func.sum(case((StockMovement.movement_type == 'IN', StockMovement.quantity), else_=0)).label('inbound'),
+            func.sum(case((StockMovement.movement_type == 'OUT', StockMovement.quantity), else_=0)).label('outbound')
+        ).filter(
+            StockMovement.timestamp >= start_date,
+            StockMovement.timestamp < end_date
+        ).group_by(
+            func.date(StockMovement.timestamp)
+        ).order_by(
+            func.date(StockMovement.timestamp)
+        ).all()
+        
+        movement_lookup = {}
         for day in daily_movements:
-            # Handle possible string return from func.date() (e.g. SQLite returns 'YYYY-MM-DD')
             date_val = day.date
             if isinstance(date_val, str):
                 try:
-                    # Parse YYYY-MM-DD string
                     date_obj = datetime.strptime(date_val, "%Y-%m-%d")
-                    chart_labels.append(date_obj.strftime("%m/%d"))
+                    label = date_obj.strftime("%m/%d")
                 except ValueError:
-                    # Fallback if format is unexpected
-                    chart_labels.append(date_val)
+                    label = date_val
             elif date_val:
-                # It's a date/datetime object
-                chart_labels.append(date_val.strftime("%m/%d"))
+                label = date_val.strftime("%m/%d")
             else:
-                chart_labels.append("")
+                continue
+            movement_lookup[label] = (int(day.inbound or 0), int(day.outbound or 0))
 
-            inbound_data.append(int(day.inbound or 0))
-            outbound_data.append(int(day.outbound or 0))
+        # Generate all days for that month
+        for d in range(1, days_in_month + 1):
+            label = datetime(year, month_filter, d).strftime("%m/%d")
+            chart_labels.append(label)
+            inbound, outbound = movement_lookup.get(label, (0, 0))
+            inbound_data.append(inbound)
+            outbound_data.append(outbound)
+            
+    else:
+        # Default: Get stock movements for last 7 days
+        daily_movements = db.session.query(
+            func.date(StockMovement.timestamp).label('date'),
+            func.sum(case((StockMovement.movement_type == 'IN', StockMovement.quantity), else_=0)).label('inbound'),
+            func.sum(case((StockMovement.movement_type == 'OUT', StockMovement.quantity), else_=0)).label('outbound')
+        ).filter(
+            StockMovement.timestamp >= seven_days_ago
+        ).group_by(
+            func.date(StockMovement.timestamp)
+        ).order_by(
+            func.date(StockMovement.timestamp)
+        ).all()
+        
+        movement_lookup = {}
+        for day in daily_movements:
+            date_val = day.date
+            if isinstance(date_val, str):
+                try:
+                    date_obj = datetime.strptime(date_val, "%Y-%m-%d")
+                    label = date_obj.strftime("%m/%d")
+                except ValueError:
+                    label = date_val
+            elif date_val:
+                label = date_val.strftime("%m/%d")
+            else:
+                continue
+            movement_lookup[label] = (int(day.inbound or 0), int(day.outbound or 0))
+
+        # Generate all 7 days, newest last
+        for i in range(6, -1, -1):
+            date = today - timedelta(days=i)
+            label = date.strftime("%m/%d")
+            chart_labels.append(label)
+            inbound, outbound = movement_lookup.get(label, (0, 0))
+            inbound_data.append(inbound)
+            outbound_data.append(outbound)
+
     
     # Get category distribution for pie chart
     category_data = db.session.query(

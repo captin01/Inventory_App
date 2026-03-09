@@ -122,6 +122,97 @@ body {
     grid-row: span 2;
 }
 
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Medium screens (tablets, 768px–1024px): 2-column grid */
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(140px, auto);
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    /* Clamp the full-width Recent Movements row to span all 2 cols */
+    .bento-item.wide.tall,
+    .glass-card.bento-item[style*="span 4"] {
+        grid-column: 1 / -1 !important;
+        grid-row: span 1 !important;
+    }
+
+    /* Charts: keep spanning 2 cols, single row */
+    .bento-item.large,
+    .glass-card.bento-item[style*="span 2"] {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .chart-container {
+        height: 240px !important;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+}
+
+/* Small screens (phones, <768px): single-column layout */
+@media (max-width: 767px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    /* All bento items collapse to full-width single column */
+    .bento-item,
+    .bento-item.wide,
+    .bento-item.large,
+    .bento-item.tall,
+    .bento-item.wide.tall,
+    .glass-card.bento-item[style*="span 2"],
+    .glass-card.bento-item[style*="span 4"] {
+        grid-column: 1 / -1 !important;
+        grid-row: span 1 !important;
+    }
+
+    .glass-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    /* Shrink charts on mobile — keep them tall enough to be readable */
+    .chart-container {
+        height: 260px !important;
+    }
+
+    /* Ensure canvas fills its container */
+    .chart-container canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Navbar: tighter padding on small screens */
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    /* Dashboard header action buttons: allow wrapping but NOT stretching */
+    .dashboard-actions .btn {
+        flex: 0 0 auto;
+    }
+}
+
 /* Stats */
 .stat-value {
     font-size: 2.5rem;

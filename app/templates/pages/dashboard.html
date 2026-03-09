@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="container-fluid px-4 animate-fade-in">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
             <h1 class="fw-bold h2 mb-0">Executive Dashboard</h1>
             <p class="text-secondary mb-0">Real-time inventory insights and performance metrics.</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2 dashboard-actions">
             <a href="{{ url_for('stock.export_movements') }}" class="btn btn-outline-light rounded-pill px-4">
                 <i class="bi bi-download me-2"></i>Export Report
             </a>
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Bento Grid -->
-    <div class="bento-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="bento-grid">
         
         <!-- Top Row: Key Metrics -->
         <div class="glass-card bento-item">
@@ -45,18 +45,20 @@
 
         <div class="glass-card bento-item {% if metrics.low_stock > 0 %}border-danger{% endif %}" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0) 100%);">
             <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3">
+                <div class="rounded-circle bg-danger bg-opacity-10 p-2 me-3 flex-shrink-0">
                     <i class="bi bi-exclamation-triangle text-danger"></i>
                 </div>
                 <div class="stat-label text-danger">Low Stock Alerts</div>
             </div>
-            <div class="d-flex justify-content-between align-items-end mb-3">
+            <div class="d-flex align-items-center justify-content-between mb-3">
                 <div class="stat-value text-danger" style="font-size: 2rem;">{{ metrics.low_stock }}</div>
-                <a href="{{ url_for('product.list_products') }}?low_stock=true" class="btn btn-sm btn-outline-danger rounded-pill">View All</a>
+                <a href="{{ url_for('product.list_products') }}?low_stock=true"
+                   class="btn btn-sm btn-outline-danger rounded-pill flex-shrink-0">
+                    <i class="bi bi-arrow-up-right-square me-1"></i>View All
+                </a>
             </div>
-            
             {% if metrics.recent_low_stock %}
-            <div class="small fw-medium text-danger mb-1"><i class="bi bi-graph-down-arrow"></i> Fast dropping:</div>
+            <div class="small fw-medium text-danger mb-1"><i class="bi bi-graph-down-arrow me-1"></i>Fast dropping:</div>
             <div class="small text-secondary text-truncate">
                 {% for item in metrics.recent_low_stock[:2] %}
                 {{ item.name }} ({{ item.quantity }}){% if not loop.last %}, {% endif %}
@@ -67,12 +69,31 @@
 
         <!-- Middle Row: Charts -->
         <div class="glass-card bento-item large" style="grid-column: span 2;">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="h5 mb-0 fw-semibold">Inventory Flow (7 Days)</h3>
-                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2">Mixed View</span>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <h3 class="h5 mb-0 fw-semibold">Inventory Flow</h3>
+                    <select class="form-select form-select-sm rounded-pill text-white border-0" 
+                            style="background: rgba(255,255,255,0.1); width: auto; font-size: 0.85rem;" 
+                            onchange="window.location.href='{{ url_for('main.home') }}?month=' + this.value">
+                        <option value="0" class="text-dark" {% if request.args.get('month', '0') == '0' %}selected{% endif %}>Last 7 Days</option>
+                        <option value="1" class="text-dark" {% if request.args.get('month') == '1' %}selected{% endif %}>January</option>
+                        <option value="2" class="text-dark" {% if request.args.get('month') == '2' %}selected{% endif %}>February</option>
+                        <option value="3" class="text-dark" {% if request.args.get('month') == '3' %}selected{% endif %}>March</option>
+                        <option value="4" class="text-dark" {% if request.args.get('month') == '4' %}selected{% endif %}>April</option>
+                        <option value="5" class="text-dark" {% if request.args.get('month') == '5' %}selected{% endif %}>May</option>
+                        <option value="6" class="text-dark" {% if request.args.get('month') == '6' %}selected{% endif %}>June</option>
+                        <option value="7" class="text-dark" {% if request.args.get('month') == '7' %}selected{% endif %}>July</option>
+                        <option value="8" class="text-dark" {% if request.args.get('month') == '8' %}selected{% endif %}>August</option>
+                        <option value="9" class="text-dark" {% if request.args.get('month') == '9' %}selected{% endif %}>September</option>
+                        <option value="10" class="text-dark" {% if request.args.get('month') == '10' %}selected{% endif %}>October</option>
+                        <option value="11" class="text-dark" {% if request.args.get('month') == '11' %}selected{% endif %}>November</option>
+                        <option value="12" class="text-dark" {% if request.args.get('month') == '12' %}selected{% endif %}>December</option>
+                    </select>
+                </div>
+                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2">Line Chart</span>
             </div>
-            <div style="height: 300px;">
-                <canvas id="movementsChart"></canvas>
+            <div class="chart-container" style="position:relative; width:100%; min-height:200px; height:280px;">
+                <canvas id="movementsChart" style="display:block;"></canvas>
             </div>
         </div>
 
@@ -81,7 +102,7 @@
                 <h3 class="h5 mb-0 fw-semibold">Category Concentration</h3>
                 <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-3 py-2">Polar Area</span>
             </div>
-            <div style="height: 300px; display: flex; justify-content: center; align-items: center;">
+            <div class="chart-container" style="height: 280px; display: flex; justify-content: center; align-items: center;">
                 <canvas id="categoryChart"></canvas>
             </div>
         </div>
@@ -121,20 +142,23 @@
 </div>
 
 <script>
-    // Stock Movements Mixed Chart
+    // Stock Movements Line Chart
     const ctxMovements = document.getElementById('movementsChart').getContext('2d');
     new Chart(ctxMovements, {
-        type: 'bar', // Base type
+        type: 'line', // Base type
         data: {
             labels: JSON.parse('{{ metrics.chart_labels|tojson|safe }}'),
             datasets: [{
-                type: 'bar', // Outbound as bars
+                type: 'line', // Outbound as a smooth line
                 label: 'Outbound',
                 data: JSON.parse('{{ metrics.outbound_data|tojson|safe }}'),
-                backgroundColor: 'rgba(239, 68, 68, 0.8)',
                 borderColor: '#ef4444',
-                borderWidth: 1,
-                borderRadius: 4,
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: '#ef4444',
                 order: 2
             }, {
                 type: 'line', // Inbound as a smooth line
@@ -145,7 +169,7 @@
                 fill: true,
                 tension: 0.4,
                 borderWidth: 3,
-                pointRadius: 5,
+                pointRadius: 4,
                 pointBackgroundColor: '#10b981',
                 order: 1
             }]
@@ -180,7 +204,13 @@
                 },
                 x: {
                     grid: { display: false, drawBorder: false },
-                    ticks: { color: '#94a3b8', padding: 10 }
+                    ticks: {
+                        color: '#94a3b8',
+                        padding: 6,
+                        autoSkip: true,
+                        maxRotation: 45,
+                        font: { family: 'Outfit', size: 11 }
+                    }
                 }
             }
         }
