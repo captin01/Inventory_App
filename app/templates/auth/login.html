@@ -3,228 +3,410 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Login - Inventory Management</title>
+    <title>Login – Inventory Pro</title>
+
+    <!-- Fonts (matches base.html) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <style>
+      /* ── Design tokens matching main.css ─────────────────────────── */
       :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --bg-color:        #000000;
+        --card-bg:         rgba(255, 255, 255, 0.04);
+        --card-border:     rgba(255, 255, 255, 0.08);
+        --text-primary:    #ffffff;
+        --text-secondary:  #94a3b8;
+        --accent-primary:  #3b82f6;
+        --accent-secondary:#8b5cf6;
+        --glow-blue:       rgba(59, 130, 246, 0.45);
+        --glow-purple:     rgba(139, 92, 246, 0.45);
+        --transition:      all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      
+
+      *, *::before, *::after { box-sizing: border-box; }
+
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--primary-gradient);
+        font-family: 'Outfit', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem 0;
-      }
-      
-      .login-container {
-        max-width: 450px;
-        width: 100%;
-      }
-      
-      .login-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        overflow: hidden;
-      }
-      
-      .login-header {
-        background: var(--primary-gradient);
-        color: white;
-        padding: 2.5rem;
-        text-align: center;
-      }
-      
-      .login-header h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-      
-      .login-header p {
-        opacity: 0.9;
-        margin: 0;
-      }
-      
-      .login-body {
-        padding: 2.5rem;
-      }
-      
-      .form-control {
-        border-radius: 10px;
-        border: 2px solid #e9ecef;
-        padding: 0.75rem 1rem;
-        transition: all 0.3s ease;
-      }
-      
-      .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-      }
-      
-      .input-group-text {
-        background: #f8f9fa;
-        border: 2px solid #e9ecef;
-        border-right: none;
-        border-radius: 10px 0 0 10px;
-      }
-      
-      .input-group .form-control {
-        border-left: none;
-        border-radius: 0 10px 10px 0;
-      }
-      
-      .btn-login {
-        background: var(--primary-gradient);
-        border: none;
-        border-radius: 10px;
-        padding: 0.75rem;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-      }
-      
-      .btn-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-      }
-      
-      .divider {
-        text-align: center;
-        margin: 1.5rem 0;
+        padding: 2rem 1rem;
+        overflow-x: hidden;
         position: relative;
       }
-      
+
+      /* ── Animated ambient orbs ───────────────────────────────────── */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+        z-index: 0;
+        animation: drift 12s ease-in-out infinite alternate;
+      }
+      .orb-blue {
+        width: 520px; height: 520px;
+        background: rgba(59, 130, 246, 0.18);
+        top: -180px; left: -180px;
+        animation-delay: 0s;
+      }
+      .orb-purple {
+        width: 420px; height: 420px;
+        background: rgba(139, 92, 246, 0.16);
+        bottom: -140px; right: -140px;
+        animation-delay: -6s;
+      }
+      @keyframes drift {
+        from { transform: translate(0, 0) scale(1);   }
+        to   { transform: translate(40px, 30px) scale(1.06); }
+      }
+
+      /* ── Card wrapper ────────────────────────────────────────────── */
+      .login-wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 440px;
+        animation: fadeUp 0.7s ease-out both;
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0);    }
+      }
+
+      /* ── Glass card ──────────────────────────────────────────────── */
+      .login-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+        position: relative;
+      }
+      /* Top accent line */
+      .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
+      }
+
+      /* ── Header ──────────────────────────────────────────────────── */
+      .login-header {
+        padding: 2.25rem 2.5rem 1.5rem;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .brand-icon {
+        width: 52px; height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 8px 24px var(--glow-blue);
+      }
+      .login-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 0.35rem;
+        letter-spacing: -0.01em;
+      }
+      .login-header p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      /* ── Body ────────────────────────────────────────────────────── */
+      .login-body {
+        padding: 2rem 2.5rem 2.5rem;
+      }
+
+      /* ── Labels ──────────────────────────────────────────────────── */
+      .form-label {
+        color: var(--text-secondary);
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.5rem;
+      }
+
+      /* ── Input fields (dark style matching .input-dark) ──────────── */
+      .input-group-dark {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input-icon {
+        position: absolute;
+        left: 1rem;
+        color: var(--text-secondary);
+        pointer-events: none;
+        z-index: 2;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+      .form-control-dark {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: var(--text-primary);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.95rem;
+        padding: 0.75rem 1rem 0.75rem 2.9rem;
+        transition: var(--transition);
+      }
+      .form-control-dark::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.55;
+      }
+      .form-control-dark:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.07);
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        color: var(--text-primary);
+      }
+      .form-control-dark:focus + .input-icon,
+      .input-group-dark:focus-within .input-icon {
+        color: var(--accent-primary);
+      }
+
+      /* Password toggle button */
+      .toggle-pw {
+        position: absolute;
+        right: 0.9rem;
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0;
+        font-size: 1rem;
+        z-index: 2;
+        transition: var(--transition);
+      }
+      .toggle-pw:hover { color: var(--text-primary); }
+
+      /* ── Submit button ───────────────────────────────────────────── */
+      .btn-login {
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.85rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      }
+      .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(59, 130, 246, 0.5);
+        color: #fff;
+      }
+      .btn-login:active { transform: translateY(0); }
+
+      /* ── Divider ─────────────────────────────────────────────────── */
+      .divider {
+        position: relative;
+        text-align: center;
+        margin: 1.5rem 0;
+      }
       .divider::before {
         content: '';
         position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-        background: #e9ecef;
+        left: 0; top: 50%;
+        width: 100%; height: 1px;
+        background: var(--card-border);
       }
-      
       .divider span {
-        background: white;
-        padding: 0 1rem;
         position: relative;
-        color: #6c757d;
+        background: transparent;
+        padding: 0 0.85rem;
+        color: var(--text-secondary);
+        font-size: 0.82rem;
       }
-      
-      .signup-link {
+
+      /* ── Sign-up link ────────────────────────────────────────────── */
+      .signup-text {
         text-align: center;
-        margin-top: 1.5rem;
-        color: #6c757d;
+        color: var(--text-secondary);
+        font-size: 0.88rem;
       }
-      
-      .signup-link a {
-        color: #667eea;
-        text-decoration: none;
+      .signup-text a {
+        color: var(--accent-primary);
         font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
       }
-      
-      .signup-link a:hover {
+      .signup-text a:hover {
+        color: var(--accent-secondary);
         text-decoration: underline;
       }
-      
+
+      /* ── Back link ───────────────────────────────────────────────── */
       .back-link {
-        color: white;
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        color: var(--text-secondary);
         text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-        opacity: 0.9;
-        transition: opacity 0.3s ease;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        transition: var(--transition);
       }
-      
-      .back-link:hover {
-        opacity: 1;
-        color: white;
+      .back-link:hover { color: var(--text-primary); }
+
+      /* ── Flash alerts ────────────────────────────────────────────── */
+      .alert {
+        border-radius: 12px;
+        font-size: 0.88rem;
+        padding: 0.75rem 1rem;
       }
+      .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+        color: #fca5a5;
+      }
+      .alert-success {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        color: #6ee7b7;
+      }
+      .alert-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+        color: #fcd34d;
+      }
+      .btn-close { filter: invert(1) brightness(0.7); }
+
+      /* ── Custom scrollbar ────────────────────────────────────────── */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--bg-color); }
+      ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
     </style>
   </head>
+
   <body>
-    <div class="login-container">
+    <!-- Ambient orbs -->
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-purple"></div>
+
+    <div class="login-wrapper">
+
+      <!-- Back to home -->
+      <a href="{{ url_for('main.landing') }}" class="back-link">
+        <i class="bi bi-arrow-left"></i> Back to Home
+      </a>
+
       <div class="login-card">
+
+        <!-- Header -->
         <div class="login-header">
-          <a href="{{ url_for('main.landing') }}" class="back-link">
-            <i class="bi bi-arrow-left"></i> Back to Home
-          </a>
-          <h1><i class="bi bi-box-seam"></i> Welcome Back</h1>
-          <p>Sign in to your account</p>
+          <div class="brand-icon">📦</div>
+          <h1>Welcome back</h1>
+          <p>Sign in to your Inventory Pro account</p>
         </div>
+
+        <!-- Body -->
         <div class="login-body">
+
+          <!-- Flash messages -->
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
               {% for category, message in messages %}
-                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                  {{ message }}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show mb-4" role="alert">
+                  <i class="bi bi-{{ 'exclamation-circle' if category == 'error' else 'check-circle' }} me-2"></i>{{ message }}
                   <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
               {% endfor %}
             {% endif %}
           {% endwith %}
-          
+
           <form method="POST" action="{{ url_for('auth.login') }}">
-            <div class="mb-3">
-              <label for="email" class="form-label fw-semibold">Email Address</label>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-envelope"></i>
-                </span>
-                <input 
-                  type="email" 
-                  class="form-control" 
-                  id="email" 
-                  name="email" 
+
+            <!-- Email -->
+            <div class="mb-4">
+              <label for="email" class="form-label">Email Address</label>
+              <div class="input-group-dark">
+                <input
+                  type="email"
+                  class="form-control-dark"
+                  id="email"
+                  name="email"
                   placeholder="you@example.com"
                   required
                   autofocus
                 >
+                <i class="bi bi-envelope input-icon"></i>
               </div>
             </div>
-            
-            <div class="mb-4">
-              <label for="password" class="form-label fw-semibold">Password</label>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-lock"></i>
-                </span>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password" 
-                  name="password" 
+
+            <!-- Password -->
+            <div class="mb-5">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group-dark">
+                <input
+                  type="password"
+                  class="form-control-dark"
+                  id="password"
+                  name="password"
                   placeholder="Enter your password"
                   required
                 >
+                <i class="bi bi-lock input-icon"></i>
+                <button type="button" class="toggle-pw" id="togglePw" aria-label="Toggle password visibility">
+                  <i class="bi bi-eye" id="togglePwIcon"></i>
+                </button>
               </div>
             </div>
-            
-            <button type="submit" class="btn btn-primary btn-login w-100 text-white">
-              <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+
+            <button type="submit" class="btn-login">
+              <i class="bi bi-box-arrow-in-right"></i> Sign In
             </button>
           </form>
-          
-          <div class="divider">
+
+          <div class="divider mt-4">
             <span>New to Inventory Pro?</span>
           </div>
-          
-          <div class="signup-link">
+
+          <p class="signup-text mb-0">
             Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign up for free</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+          </p>
+
+        </div><!-- /login-body -->
+      </div><!-- /login-card -->
+    </div><!-- /login-wrapper -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Password show/hide toggle
+      const pwInput  = document.getElementById('password');
+      const toggleBtn = document.getElementById('togglePw');
+      const toggleIcon = document.getElementById('togglePwIcon');
+
+      toggleBtn.addEventListener('click', () => {
+        const show = pwInput.type === 'password';
+        pwInput.type = show ? 'text' : 'password';
+        toggleIcon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+      });
+    </script>
   </body>
 </html>
-

@@ -74,7 +74,7 @@
                     <h3 class="h5 mb-0 fw-semibold">Inventory Flow</h3>
                     <select class="form-select form-select-sm rounded-pill text-white border-0" 
                             style="background: rgba(255,255,255,0.1); width: auto; font-size: 0.85rem;" 
-                            onchange="window.location.href='{{ url_for('main.home') }}?month=' + this.value">
+                            onchange="window.location.href=`{{ url_for('main.home') }}?month=` + this.value">
                         <option value="0" class="text-dark" {% if request.args.get('month', '0') == '0' %}selected{% endif %}>Last 7 Days</option>
                         <option value="1" class="text-dark" {% if request.args.get('month') == '1' %}selected{% endif %}>January</option>
                         <option value="2" class="text-dark" {% if request.args.get('month') == '2' %}selected{% endif %}>February</option>
